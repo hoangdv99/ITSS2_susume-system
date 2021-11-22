@@ -8,8 +8,16 @@ import {
 } from 'react-bootstrap'
 import Logo from '../../assets/images/logo.svg'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function Header() {
+  const { currentUser, logout } = useAuth()
+  const dropdownTitle = 'Hello, ' + currentUser.email
+
+  const handleLogout = async () => {
+    await logout()
+  }
+ 
   return (
     <Navbar bg="light" style={{marginBottom: "10px"}}>
       <Container>
@@ -29,8 +37,8 @@ export default function Header() {
           <Nav.Link href="#">商売履歴</Nav.Link>
         </Nav>
         <Navbar.Collapse className="justify-content-end">
-          <NavDropdown title="Hello, Hoang" id="basic-nav-dropdown">
-            <NavDropdown.Item href="#">サインアウト</NavDropdown.Item>
+          <NavDropdown id="basic-nav-dropdown" title={dropdownTitle}>
+            <NavDropdown.Item onClick={handleLogout}>サインアウト</NavDropdown.Item>
           </NavDropdown>
         </Navbar.Collapse>
       </Container>
