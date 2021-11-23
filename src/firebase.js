@@ -1,6 +1,8 @@
 // // Import the functions you need from the SDKs you need
 import firebase from "firebase/compat/app";
 import 'firebase/compat/auth'
+import 'firebase/compat/firestore'
+import 'firebase/compat/storage'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -17,3 +19,18 @@ const firebaseConfig = {
 // Initialize Firebase
 export const app = firebase.initializeApp(firebaseConfig);
 export const auth = app.auth()
+export const firestore = app.firestore()
+export const storage = app.storage()
+
+export const uploadImage = async (image) => {
+  console.log(image)
+  const ref = storage.ref().child(`/images/products/${image.name}`)
+  let downloadUrl = ""
+  try {
+    await ref.put(image)
+    downloadUrl = await ref.getDownloadURL()
+  } catch (err) {
+    console.log(err);
+  }
+  return downloadUrl
+}
