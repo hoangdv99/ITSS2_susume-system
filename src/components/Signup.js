@@ -7,6 +7,8 @@ export default function Signup() {
   const emailRef = useRef()
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
+  const nameRef = useRef()
+  const phoneRef = useRef()
   const { signup } = useAuth()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
@@ -39,6 +41,10 @@ export default function Signup() {
           <h2 className="text-center mb-4">サインアップ</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleSubmit}>
+            <Form.Group id="name">
+              <Form.Label>名前</Form.Label>
+              <Form.Control type="text" ref={nameRef} required></Form.Control>
+            </Form.Group>
             <Form.Group id="email">
               <Form.Label>メール</Form.Label>
               <Form.Control type="email" ref={emailRef} required />
@@ -48,8 +54,12 @@ export default function Signup() {
               <Form.Control type="password" ref={passwordRef} required />
             </Form.Group>
             <Form.Group id="password-confirm">
-              <Form.Label>再パスワード</Form.Label>
+              <Form.Label>パスワード確認</Form.Label>
               <Form.Control type="password" ref={passwordConfirmRef} required />
+            </Form.Group>
+            <Form.Group id="phone-number">
+              <Form.Label>電話番号</Form.Label>
+              <Form.Control type="text" ref={phoneRef} required />
             </Form.Group>
             <Button disabled={loading} className="w-100" type="submit">
               サインアップ
