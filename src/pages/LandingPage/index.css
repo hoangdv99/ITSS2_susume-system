@@ -1,0 +1,46 @@
+.landing-header {
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 1rem;
+  background-color: rgb(226, 222, 222);
+  z-index: -1;
+  position: absolute;
+  width: 100%;
+  border-bottom: 3px solid rgb(213, 238, 236);
+}
+
+.login-register {
+  display: flex;
+}
+
+.landing {
+  background-image: url("../../assets/images/store.jpg");
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  border: 3px solid rgb(213, 238, 236);
+  z-index: 0;
+  position: relative;
+}
+
+.landing-content {
+  margin: 10rem auto;
+  text-align: center;
+  color: white;
+  font-size: 5rem;
+  padding: 5rem;
+  width: 80%;
+  border: 5px solid white;
+  border-radius: 10px;
+  background-color: rgba(75, 71, 71, 0.5);
+}
+
+.get-start {
+  font-size: 2rem;
+  background-color: rgba(75, 71, 71, 0.5);
+  border: 2px solid white;
+  border-radius: 10px;
+  color: white;
+  padding: 0 1rem;
+}

@@ -1,11 +1,17 @@
-import React from "react"
-import { Route, Outlet, Navigate } from "react-router-dom"
-import { useAuth } from "../contexts/AuthContext"
+import React from "react";
+import { Outlet, Navigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import Header from "../components/layout/Header";
 
 export default function PrivateRoute() {
-  const { currentUser } = useAuth()
+  const { currentUser } = useAuth();
 
-  return (
-    currentUser ? <Outlet /> : <Navigate to="/login" />
-  )
+  return currentUser ? (
+    <div>
+      <Header />
+      <Outlet />
+    </div>
+  ) : (
+    <Navigate to="/landing" />
+  );
 }
