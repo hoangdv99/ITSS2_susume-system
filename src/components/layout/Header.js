@@ -1,17 +1,28 @@
-import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import React ,{ useState } from 'react';
 import {
-  Navbar,
-  Container,
-  NavDropdown,
-  Nav
-} from 'react-bootstrap'
-import Logo from '../../assets/images/logo.svg'
+  Button, Nav, Navbar, NavDropdown
+} from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
+import Logo from '../../assets/images/logo.svg';
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function Header() {
+  const [error, setError] = useState("")
+  const { currentUser, logout } = useAuth()
+  const navigate = useNavigate()
+
+  async function handleLogout() {
+    setError("")
+    try {
+      await logout()
+      navigate("/login")
+    } catch {
+      setError("Failed to log out")
+    }
+  }
   return (
-    <Navbar bg="light">
-      <Container>
+    <Navbar bg="light" fixed="top">
         <Navbar.Brand href="#home">
           <img
             src={Logo}
@@ -28,11 +39,14 @@ export default function Header() {
           <Nav.Link href="#">商売履歴</Nav.Link>
         </Nav>
         <Navbar.Collapse className="justify-content-end">
-          <NavDropdown title="Hello, Hoang" id="basic-nav-dropdown">
-            <NavDropdown.Item href="#">サインアウト</NavDropdown.Item>
+          <NavDropdown title="Nguyễn Công" id="basic-nav-dropdown">
+            <NavDropdown.Item>
+              <Button variant="link" onClick={handleLogout}>
+                Log Out
+              </Button>
+            </NavDropdown.Item>
           </NavDropdown>
         </Navbar.Collapse>
-      </Container>
     </Navbar>
   )
 }
