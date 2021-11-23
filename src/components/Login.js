@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react"
-import { Form, Button, Card, Alert } from "react-bootstrap"
+import { Form, Button, Card, Alert, Container } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
 
@@ -27,7 +27,8 @@ export default function Login() {
   }
 
   return (
-    <>
+    <div className="d-flex align-items-center justify-content-center" style={{ minHeight: "50vh", marginTop: "20px" }}>
+      <Container style={{maxWidth: "400px"}}>
       <Card>
         <Card.Body>
           <h2 className="text-center mb-4">ログイン</h2>
@@ -53,6 +54,7 @@ export default function Login() {
       <div className="w-100 text-center mt-2">
         アカウントが必要? <Link to="/signup">サインアップ</Link>
       </div>
-    </>
+      </Container>
+    </div>
   )
 }
