@@ -23,7 +23,7 @@ export default function ProductForm({productId}) {
 
   useEffect(() => {
     if (productId) {
-      const product = products.find(product => product.id == productId)
+      const product = products.find(product => product.id === productId)
       setName(product.name)
       setPrice(product.price)
       setQuantity(product.quantity)

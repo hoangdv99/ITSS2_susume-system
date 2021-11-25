@@ -13,6 +13,7 @@ import NewProduct from '../pages/products/new'
 import EditProduct from "../pages/products/edit"
 import Advertisements from '../pages/advertisements'
 import NewAdvertisement from '../pages/advertisements/new'
+import EditAdvertisement from "../pages/advertisements/edit"
 import { ProductProvider } from "../contexts/ProductContext"
 import { AdvertisementProvider } from "../contexts/AdvertisementContext"
 
@@ -70,6 +71,9 @@ function App() {
               </Route>
               <Route path='/advertisement/add' element={<PrivateRoute />}>
                 <Route path='/advertisement/add' element={<NewAdvertisement />}/>
+              </Route>
+              <Route path='/advertisement/:id/edit' element={<PrivateRoute />}>
+                <Route path='/advertisement/:id/edit' element={<EditAdvertisement />}/>
               </Route>
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
