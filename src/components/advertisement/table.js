@@ -13,7 +13,7 @@ export default function AdvertisementList() {
           <th className="text-center">名前</th>
           <th className="text-center">詳細</th>
           <th className="text-center">写真</th>
-          <th className="text-center">SNS</th>
+          <th className="text-center">コンテンツ</th>
         </tr>
       </thead>
       <tbody>
@@ -21,11 +21,11 @@ export default function AdvertisementList() {
             <tr key={advertisement.id}>
               <td className="text-center">{ advertisement.id }</td>
               <td className="text-center">{ advertisement.name }</td>
+              <td className="text-center">{ advertisement.info }</td>
               <td className="text-center">
                 <img src={advertisement.image} style={{width: "80px", height:"80px"}} alt="advertisement" />
-              </td>
-              <td className="text-center">{ advertisement.price }</td>
-              <td className="text-center">{ advertisement.quantity }</td>
+              </td>              
+              <td className="text-center">{ advertisement.content }</td>
               <td className="text-center">
                 <Button style={{marginRight:"10px", background:"yellow"}}>
                   <Link to={`/advertisement/${advertisement.id}/edit`} style={{textDecoration:"none"}}>Edit</Link>

@@ -13,7 +13,7 @@ import { uploadImage } from '../../firebase'
 export default function AdvertisementForm({advertisementId}) {
   const [name, setName] = useState('')
   const [info, setInfo] = useState()
-  const [sns, setSns] = useState()
+  const [content, setContent] = useState()
   const { createNewAdvertisement, advertisements, editAdvertisement } = useAdvertisement()
   const [validated, setValidated] = useState(false)
   const [fileUpload, setFileUpload] = useState()
@@ -26,7 +26,7 @@ export default function AdvertisementForm({advertisementId}) {
       const advertisement = advertisements.find(advertisement => advertisement.id == advertisementId)
       setName(advertisement.name)
       setInfo(advertisement.info)
-      setSns(advertisement.sns)
+      setContent(advertisement.content)
       setFileUpload(advertisement.image)
       setFileName(advertisement.image)
     }
@@ -42,7 +42,7 @@ export default function AdvertisementForm({advertisementId}) {
       const advertisement = {
         name,
         info,
-        sns,
+        content,
         image: fileUpload.includes('https') ? fileName : await uploadImage(fileName)
       }
       console.log(advertisementId);
@@ -98,12 +98,12 @@ export default function AdvertisementForm({advertisementId}) {
 
             <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
               <Form.Label column sm={2}>
-                SNS
+                コンテンツ
               </Form.Label>
               <Col sm={10}>
-                <Form.Control type="text" value={sns} onChange={e=>setSns(e.target.value)} required />
+                <Form.Control type="text" value={content} onChange={e=>setContent(e.target.value)} required />
                 <Form.Control.Feedback type="invalid">
-                  SNSは必須です！
+                  コンテンツは必須です！
                 </Form.Control.Feedback>
               </Col>
             </Form.Group>
@@ -116,7 +116,7 @@ export default function AdvertisementForm({advertisementId}) {
                 <Form.Control type="file" onChange={handleChange} />
               </Col>
             </Form.Group>
-            { fileUpload && <img src={fileUpload} style={{ width:"120px", height:"120px"}} alt="product" /> }
+            { fileUpload && <img src={fileUpload} style={{ width:"120px", height:"120px"}} alt="advertisement" /> }
             <div className="d-flex justify-content-center">
               <Button type="submit" variant="success" size="lg" disabled={loading}>作成</Button>
             </div>
