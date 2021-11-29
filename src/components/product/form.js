@@ -45,7 +45,6 @@ export default function ProductForm({productId}) {
         quantity,
         image: fileUpload.includes('https') ? fileName : await uploadImage(fileName)
       }
-      console.log(productId);
       if (productId === undefined) {
         await createNewProduct(product)
       } else {

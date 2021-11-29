@@ -8,27 +8,25 @@ import {
 } from 'react-bootstrap'
 import { useNavigate } from 'react-router'
 import { useAdvertisement } from '../../contexts/AdvertisementContext'
-import { uploadImage } from '../../firebase'
+import { useProduct } from '../../contexts/ProductContext'
+import { sns } from '../../constants'
 
 export default function AdvertisementForm({advertisementId}) {
-  const [name, setName] = useState('')
-  const [info, setInfo] = useState()
   const [content, setContent] = useState()
-  const { createNewAdvertisement, advertisements, editAdvertisement } = useAdvertisement()
+  const { createNewAdvertisement, editAdvertisement, advertisements } = useAdvertisement()
   const [validated, setValidated] = useState(false)
-  const [fileUpload, setFileUpload] = useState()
-  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  const [fileName, setFileName] = useState()
+  const [loading, setLoading] = useState(false)
+  const { products } = useProduct()
+  const [selectedSns, setSelectedSns] = useState("Facebook")
+  const [selectedProduct, setSelectedProduct] = useState('')
 
   useEffect(() => {
     if (advertisementId) {
-      const advertisement = advertisements.find(advertisement => advertisement.id == advertisementId)
-      setName(advertisement.name)
-      setInfo(advertisement.info)
-      setContent(advertisement.content)
-      setFileUpload(advertisement.image)
-      setFileName(advertisement.image)
+      const ad = advertisements.find(ad => ad.id === advertisementId)
+      setContent(ad.content)
+      setSelectedSns(ad.sns.name)
+      setSelectedProduct(ad.product.id)
     }
   }, [advertisementId])
 
@@ -40,12 +38,10 @@ export default function AdvertisementForm({advertisementId}) {
       e.stopPropagation()
     } else {
       const advertisement = {
-        name,
-        info,
         content,
-        image: fileUpload.includes('https') ? fileName : await uploadImage(fileName)
+        sns: sns.find(item => item.name === selectedSns),
+        product: products.find(product => product.id === selectedProduct) || {}
       }
-      console.log(advertisementId);
       if (advertisementId === undefined) {
         await createNewAdvertisement(advertisement)
       } else {
@@ -57,15 +53,11 @@ export default function AdvertisementForm({advertisementId}) {
     setLoading(false)
   }
 
-  const handleChange = async e => {
-    setFileName(e.target.files[0])
-    const reader = new FileReader()
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setFileUpload(reader.result)
-      }
-    }
-    reader.readAsDataURL(e.target.files[0])
+  const handleSelectSns = (e) => {
+    setSelectedSns(e.target.value)
+  }
+  const handleSelectProduct = e => {
+    setSelectedProduct(e.target.value)
   }
 
   return (
@@ -74,49 +66,42 @@ export default function AdvertisementForm({advertisementId}) {
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
               <Form.Label column sm={2}>
-                名前
-              </Form.Label>
-              <Col sm={10}>
-                <Form.Control type="text" value={name} onChange={e=>setName(e.target.value)} required />
-                <Form.Control.Feedback type="invalid">
-                  名前は必須です！
-                </Form.Control.Feedback>
-              </Col>
-            </Form.Group>
-
-            <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
-              <Form.Label column sm={2}>
                 詳細
               </Form.Label>
               <Col sm={10}>
-                <Form.Control type="text" value={info} onChange={e=>setInfo(e.target.value)} required />
+                <Form.Control type="text" value={content} onChange={e=>setContent(e.target.value)} required />
                 <Form.Control.Feedback type="invalid">
                   詳細は必須です！
                 </Form.Control.Feedback>
               </Col>
             </Form.Group>
 
-            <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+            <Form.Group as={Row} className="mb-3">
               <Form.Label column sm={2}>
-                コンテンツ
+                SNS
               </Form.Label>
               <Col sm={10}>
-                <Form.Control type="text" value={content} onChange={e=>setContent(e.target.value)} required />
-                <Form.Control.Feedback type="invalid">
-                  コンテンツは必須です！
-                </Form.Control.Feedback>
+                <Form.Select aria-label="Default select example" value={selectedSns} onChange={handleSelectSns}>
+                  <option value="Facebook">Facebook</option>
+                  <option value="Instagram">Instagram</option>
+                  <option value="Twitter">Twitter</option>
+                </Form.Select>
               </Col>
             </Form.Group>
 
-            <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+            <Form.Group as={Row} className="mb-3">
               <Form.Label column sm={2}>
-                写真
+                商材
               </Form.Label>
               <Col sm={10}>
-                <Form.Control type="file" onChange={handleChange} />
+                <Form.Select aria-label="Default select example" value={selectedProduct} onChange={handleSelectProduct}>
+                  <option>-- Select product for ads --</option>
+                  { products.map(product => (
+                    <option value={product.id}>{ product.name }</option>
+                  )) }
+                </Form.Select>
               </Col>
             </Form.Group>
-            { fileUpload && <img src={fileUpload} style={{ width:"120px", height:"120px"}} alt="advertisement" /> }
             <div className="d-flex justify-content-center">
               <Button type="submit" variant="success" size="lg" disabled={loading}>作成</Button>
             </div>

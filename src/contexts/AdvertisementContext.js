@@ -29,7 +29,7 @@ export function AdvertisementProvider({ children }) {
 
   const createNewAdvertisement = async (advertisement) => {
     const id = format('yyyyMMddHHmmss', new Date())
-    const newAdvertisement = { ...advertisement, userId: currentUser.uid, id}
+    const newAdvertisement = { ...advertisement, userId: currentUser.uid, id, view: 0 }
     await firestore.collection('advertisements').doc(id).set(newAdvertisement)
     setAdvertisements([...advertisements, newAdvertisement])
   }
