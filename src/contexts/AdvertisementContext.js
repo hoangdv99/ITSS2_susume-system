@@ -9,6 +9,10 @@ export function useAdvertisement() {
   return useContext(AdvertisementContext)
 }
 
+function getRandomArbitrary(min, max) {
+  return parseInt(Math.random() * (max - min) + min);
+}
+
 export function AdvertisementProvider({ children }) {
   const [advertisements, setAdvertisements] = useState([])
   const { currentUser } = useAuth()
@@ -29,7 +33,20 @@ export function AdvertisementProvider({ children }) {
 
   const createNewAdvertisement = async (advertisement) => {
     const id = format('yyyyMMddHHmmss', new Date())
-    const newAdvertisement = { ...advertisement, userId: currentUser.uid, id, view: 0 }
+    const newAdvertisement = {
+      ...advertisement,
+      userId: currentUser.uid, 
+      id,
+      view: [
+        getRandomArbitrary(0, 100),
+        getRandomArbitrary(0, 100),
+        getRandomArbitrary(0, 100),
+        getRandomArbitrary(0, 100),
+        getRandomArbitrary(0, 100),
+        getRandomArbitrary(0, 100),
+        getRandomArbitrary(0, 100)
+      ]
+    }
     await firestore.collection('advertisements').doc(id).set(newAdvertisement)
     setAdvertisements([...advertisements, newAdvertisement])
   }
