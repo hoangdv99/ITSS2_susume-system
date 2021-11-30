@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router'
 import { useAdvertisement } from '../../contexts/AdvertisementContext'
 import { useProduct } from '../../contexts/ProductContext'
 import { sns } from '../../constants'
+import firebase from '@firebase/app-compat'
 
 export default function AdvertisementForm({advertisementId}) {
   const [content, setContent] = useState()
@@ -40,7 +41,8 @@ export default function AdvertisementForm({advertisementId}) {
       const advertisement = {
         content,
         sns: sns.find(item => item.name === selectedSns),
-        product: products.find(product => product.id === selectedProduct) || {}
+        product: products.find(product => product.id === selectedProduct) || {},
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
       }
       if (advertisementId === undefined) {
         await createNewAdvertisement(advertisement)

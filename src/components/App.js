@@ -14,6 +14,7 @@ import EditProduct from "../pages/products/edit"
 import Advertisements from '../pages/advertisements'
 import NewAdvertisement from '../pages/advertisements/new'
 import EditAdvertisement from "../pages/advertisements/edit"
+import AdCost  from "../pages/dashboard/AdCost";
 import { ProductProvider } from "../contexts/ProductContext"
 import { AdvertisementProvider } from "../contexts/AdvertisementContext"
 
@@ -26,6 +27,9 @@ function App() {
             <Routes>
               <Route path='/' element={<PrivateRoute />}>
                 <Route path='/' element={<Dashboard />}/>
+              </Route>
+              <Route path='/' element={<PrivateRoute />}>
+                <Route path='/dashboard/ad-cost' element={<AdCost />}/>
               </Route>
               <Route path='/update-profile' element={<PrivateRoute />}>
                 <Route path='/update-profile' element={<UpdateProfile />}/>
