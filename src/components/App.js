@@ -14,7 +14,7 @@ import Advertisements from '../pages/advertisements'
 import NewAdvertisement from '../pages/advertisements/new'
 import EditAdvertisement from "../pages/advertisements/edit"
 import AdCost  from "../pages/dashboard/AdCost";
-import Chart from "../pages/dashboards/chart"
+import Chart from "../pages/dashboard/chart"
 import { ProductProvider } from "../contexts/ProductContext"
 import { AdvertisementProvider } from "../contexts/AdvertisementContext"
 
@@ -25,8 +25,8 @@ function App() {
         <ProductProvider>
           <AdvertisementProvider>
             <Routes>
-              <Route path='/dashboard' element={<PrivateRoute />}>
-                <Route path='/dashboard/ad-cost' element={<AdCost />}/>
+              <Route path='/' element={<PrivateRoute />}>
+                <Route path='/' element={<AdCost />}/>
               </Route>
               <Route path='/update-profile' element={<PrivateRoute />}>
                 <Route path='/update-profile' element={<UpdateProfile />}/>
@@ -53,8 +53,8 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/landing" element={<LandingPage />} />
-              <Route path='/dashboard' element={<PrivateRoute />}>
-                <Route path="/dashboard" element={<Chart/>} />
+              <Route path='/chart' element={<PrivateRoute />}>
+                <Route path="/chart" element={<Chart/>} />
               </Route>
             </Routes>
           </AdvertisementProvider>

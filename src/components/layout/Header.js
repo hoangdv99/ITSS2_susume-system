@@ -32,7 +32,7 @@ export default function Header() {
         <Nav className="me-auto my-2">
           <Nav.Link as={Link} to='/products'>商材管理</Nav.Link>
           <Nav.Link as={Link} to='/advertisements'>広告管理</Nav.Link>
-          <Nav.Link as={Link} to='/dashboards'>ダッシュボード</Nav.Link>
+          <Nav.Link as={Link} to='/'>ダッシュボード</Nav.Link>
         </Nav>
         <Navbar.Collapse className="justify-content-end">
           <NavDropdown id="basic-nav-dropdown" title={dropdownTitle}>
