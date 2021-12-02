@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import { InputGroup, FormControl, Table, Container, Button, Form, Row, Col } from 'react-bootstrap';
+import { InputGroup, FormControl, Table, Container, Button, Form, Col } from 'react-bootstrap';
 import { useAdvertisement } from '../../contexts/AdvertisementContext';
 import { Link } from 'react-router-dom'
 
 export default function AdCost() {
   const { advertisements } = useAdvertisement();
   const [valueSearch, setValueSearch] = useState('');
-  const [valueFilter, setValueFilter] = useState('');
   const [advs, setAdvs] = useState(advertisements);
 
 
@@ -35,7 +34,6 @@ export default function AdCost() {
     setAdvs(newAdList);
   }
   const onChangeFilter = (event) => {
-    setValueFilter(event.target.value);
     if (event.target.value != 'None'){
       let result = advertisements.filter(adv => {
         if (adv.sns.name == event.target.value) {
@@ -60,31 +58,37 @@ export default function AdCost() {
       </div>
       <h3>コスト</h3>
       <div className="action">
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <InputGroup className="mb-3" style={{ width: "500px" }}>
-            <InputGroup.Text id="basic-addon1">探索</InputGroup.Text>
-            <FormControl
-              value={valueSearch}
-              placeholder="名前で探索？"
-              aria-label="探索"
-              aria-describedby="basic-addon1"
-              onChange={(event) => onChangeSearch(event)}
-            />
-          </InputGroup>
-        </div>
-        <Form.Group as={Row} className="mb-3">
+        <div className="container">
+          <div className="row">
+            <div className="col">
+              <Form.Group className="mb-3" style={{ display: "flex", justifyContent: "flex-start" }}>
               <Form.Label column sm={2}>
-                SNS
+              フィルター
               </Form.Label>
-              <Col sm={10}>
-                <Form.Select aria-label="Default select example" onChange={(event) => onChangeFilter(event)}>
-                  <option value="None">No Filter</option>
-                  <option value="Facebook">Facebook</option>
-                  <option value="Instagram">Instagram</option>
-                  <option value="Twitter">Twitter</option>
-                </Form.Select>
-              </Col>
-            </Form.Group>
+                <Col sm={10}>
+                  <Form.Select aria-label="Default select example" onChange={(event) => onChangeFilter(event)}>
+                    <option value="None">フィルターなし</option>
+                    <option value="Facebook">フェイスブック</option>
+                    <option value="Instagram">インスタグラム</option>
+                    <option value="Twitter">ツイッター</option>
+                  </Form.Select>
+                </Col>
+              </Form.Group>
+            </div>
+            <div className="col" style={{ display: "flex", justifyContent: "flex-start" }}>
+              <InputGroup className="mb-3" style={{ width: "500px" }}>
+                <InputGroup.Text id="basic-addon1">探索</InputGroup.Text>
+                <FormControl
+                  value={valueSearch}
+                  placeholder="商品名で検索する"
+                  aria-label="探索"
+                  aria-describedby="basic-addon1"
+                  onChange={(event) => onChangeSearch(event)}
+                />
+              </InputGroup>
+            </div>
+          </div>
+        </div>
         <div>
           <Table striped bordered hover>
             <thead>
@@ -103,7 +107,7 @@ export default function AdCost() {
                 advs.map(ad => (
                   <tr key={ad.id}>
                     <td>{ad.id}</td>
-                    <td>{new Date(ad.createdAt.seconds * 1000).toLocaleString('vi-GB', { timeZone: 'UTC' })}</td>
+                    <td>{new Date(ad.createdAt.seconds * 1000).toLocaleString('vi-GB')}</td>
                     <td>{ad.product.name}</td>
                     <td>{ad.content}</td>
                     <td>{ad.sns.name}</td>
