@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { InputGroup, FormControl, Table, Container, Button } from 'react-bootstrap';
+import { InputGroup, FormControl, Table, Container, Button, Form, Row, Col } from 'react-bootstrap';
 import { useAdvertisement } from '../../contexts/AdvertisementContext';
 import { Link } from 'react-router-dom'
 
 export default function AdCost() {
   const { advertisements } = useAdvertisement();
   const [valueSearch, setValueSearch] = useState('');
+  const [valueFilter, setValueFilter] = useState('');
   const [advs, setAdvs] = useState(advertisements);
 
 
@@ -33,6 +34,19 @@ export default function AdCost() {
 
     setAdvs(newAdList);
   }
+  const onChangeFilter = (event) => {
+    setValueFilter(event.target.value);
+    if (event.target.value != 'None'){
+      let result = advertisements.filter(adv => {
+        if (adv.sns.name == event.target.value) {
+          return adv;
+        }
+      })
+      setAdvs(result);
+    } else {
+      setAdvs(advertisements);
+    }
+  }
 
 
   return (
@@ -58,6 +72,19 @@ export default function AdCost() {
             />
           </InputGroup>
         </div>
+        <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm={2}>
+                SNS
+              </Form.Label>
+              <Col sm={10}>
+                <Form.Select aria-label="Default select example" onChange={(event) => onChangeFilter(event)}>
+                  <option value="None">No Filter</option>
+                  <option value="Facebook">Facebook</option>
+                  <option value="Instagram">Instagram</option>
+                  <option value="Twitter">Twitter</option>
+                </Form.Select>
+              </Col>
+            </Form.Group>
         <div>
           <Table striped bordered hover>
             <thead>
