@@ -30,12 +30,9 @@ export default function Header() {
           />
         </Navbar.Brand>
         <Nav className="me-auto my-2">
-          <Nav.Link as={Link} to="/products">
-            商材管理
-          </Nav.Link>
-          <Nav.Link href="#">広告管理</Nav.Link>
-          <Nav.Link href="#">ダッシュボード</Nav.Link>
-          <Nav.Link href="#">商売履歴</Nav.Link>
+          <Nav.Link as={Link} to='/products'>商材管理</Nav.Link>
+          <Nav.Link as={Link} to='/advertisements'>広告管理</Nav.Link>
+          <Nav.Link as={Link} to='/'>ダッシュボード</Nav.Link>
         </Nav>
         <Navbar.Collapse className="justify-content-end">
           <NavDropdown id="basic-nav-dropdown" title={dropdownTitle}>
@@ -44,6 +41,7 @@ export default function Header() {
             </NavDropdown.Item>
           </NavDropdown>
         </Navbar.Collapse>
+        
       </Container>
     </Navbar>
   );
