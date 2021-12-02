@@ -13,9 +13,9 @@ export default function Advertisements() {
     <Container>
       <div className="advertisements">
         <h3>広告一覧</h3>
-        <Button variant="success" as={Link} to='/advertisement/add' style={{marginBottom: "10px"}}>
+        <Button variant="primary" as={Link} to='/advertisement/add' style={{marginBottom: "10px"}}>
           <BsFillPlusCircleFill className="btn-icon" />
-          Add new advertisement
+          新しい広告の追加
         </Button>
         <AdvertisementList />
       </div>

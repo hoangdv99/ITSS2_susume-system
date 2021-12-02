@@ -1,5 +1,4 @@
-import Button from '@restart/ui/esm/Button'
-import { Table } from 'react-bootstrap'
+import { Table, Button } from 'react-bootstrap'
 import { useAdvertisement } from '../../contexts/AdvertisementContext'
 import { Link } from 'react-router-dom'
 
@@ -23,10 +22,10 @@ export default function AdvertisementList() {
               <td className="text-center">{ advertisement.content }</td>              
               <td className="text-center">{ advertisement.sns.name }</td>
               <td className="text-center">
-                <Button style={{marginRight:"10px", background:"yellow"}}>
-                  <Link to={`/advertisement/${advertisement.id}/edit`} style={{textDecoration:"none"}}>Edit</Link>
+                <Button variant="success"style={{marginRight:"10px", textColor:"white"}}>
+                  <Link to={`/advertisement/${advertisement.id}/edit`} style={{textDecoration:"none", color: '#FFF'}}>修正</Link>
                 </Button>
-                <Button style={{background:"#eb5e34"}} onClick={()=>{deleteAdvertisement(advertisement.id)}}>Delete</Button>
+                <Button variant="danger" onClick={()=>{deleteAdvertisement(advertisement.id)}}>削除</Button>
               </td>
             </tr>
           ))

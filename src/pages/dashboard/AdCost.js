@@ -80,7 +80,7 @@ export default function AdCost() {
                     <td>{ad.product.name}</td>
                     <td>{ad.content}</td>
                     <td>{ad.sns.name}</td>
-                    <td>{ad.sns.cost * totalViews(ad.view)}</td>
+                    <td>{Math.round((ad.sns.cost * totalViews(ad.view)+ Number.EPSILON)*100)/100}</td>
                   </tr>
                 ))
               }
