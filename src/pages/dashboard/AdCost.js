@@ -59,7 +59,7 @@ export default function AdCost() {
           </InputGroup>
         </div>
         <div>
-          <Table>
+          <Table striped bordered hover>
             <thead>
               <tr>
                 <th>ID</th>

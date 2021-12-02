@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 export default function ProductList() {
   const { products, deleteProduct } = useProduct()
   return (
-    <Table striped>
+    <Table striped bordered hover>
       <thead>
         <tr>
           <th className="text-center">ID</th>

@@ -5,13 +5,14 @@ import { Link } from 'react-router-dom'
 export default function AdvertisementList() {
   const { advertisements, deleteAdvertisement } = useAdvertisement()
   return (
-    <Table striped>
+    <Table striped bordered hover>
       <thead>
         <tr>
           <th className="text-center">ID</th>
           <th className="text-center">商材</th>
           <th className="text-center">詳細</th>
           <th className="text-center">SNS</th>
+          <th className="text-center">活動</th>
         </tr>
       </thead>
       <tbody>
