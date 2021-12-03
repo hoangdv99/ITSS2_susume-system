@@ -84,9 +84,9 @@ export default function AdvertisementForm({advertisementId}) {
               </Form.Label>
               <Col sm={10}>
                 <Form.Select aria-label="Default select example" value={selectedSns} onChange={handleSelectSns}>
-                  <option value="Facebook">Facebook</option>
-                  <option value="Instagram">Instagram</option>
-                  <option value="Twitter">Twitter</option>
+                  <option value="Facebook">フェイスブック</option>
+                  <option value="Instagram">インスタグラム</option>
+                  <option value="Twitter">ツイッター</option>
                 </Form.Select>
               </Col>
             </Form.Group>
@@ -97,7 +97,7 @@ export default function AdvertisementForm({advertisementId}) {
               </Form.Label>
               <Col sm={10}>
                 <Form.Select aria-label="Default select example" value={selectedProduct} onChange={handleSelectProduct}>
-                  <option>-- Select product for ads --</option>
+                  <option>-- 製品を選択する --</option>
                   { products.map(product => (
                     <option value={product.id}>{ product.name }</option>
                   )) }

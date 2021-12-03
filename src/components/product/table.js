@@ -1,12 +1,11 @@
-import Button from '@restart/ui/esm/Button'
-import { Table } from 'react-bootstrap'
+import { Table, Button } from 'react-bootstrap'
 import { useProduct } from '../../contexts/ProductContext'
 import { Link } from 'react-router-dom'
 
 export default function ProductList() {
   const { products, deleteProduct } = useProduct()
   return (
-    <Table striped>
+    <Table striped bordered hover>
       <thead>
         <tr>
           <th className="text-center">ID</th>
@@ -28,10 +27,10 @@ export default function ProductList() {
               <td className="text-center">{ product.price }</td>
               <td className="text-center">{ product.quantity }</td>
               <td className="text-center">
-                <Button style={{marginRight:"10px", background:"yellow"}}>
-                  <Link to={`/product/${product.id}/edit`} style={{textDecoration:"none"}}>Edit</Link>
+                <Button variant="success"style={{marginRight:"10px"}}>
+                  <Link to={`/product/${product.id}/edit`} style={{textDecoration:"none", color: '#FFF'}}>修正</Link>
                 </Button>
-                <Button style={{background:"#eb5e34"}} onClick={()=>{deleteProduct(product.id)}}>Delete</Button>
+                <Button variant="danger" onClick={()=>{deleteProduct(product.id)}}>削除</Button>
               </td>
             </tr>
           ))

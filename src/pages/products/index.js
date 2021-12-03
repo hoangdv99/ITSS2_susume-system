@@ -13,9 +13,9 @@ export default function Products() {
     <Container>
       <div className="products">
         <h3>商材一覧</h3>
-        <Button variant="success" as={Link} to='/product/add' style={{marginBottom: "10px"}}>
+        <Button variant="primary" as={Link} to='/product/add' style={{marginBottom: "10px"}}>
           <BsFillPlusCircleFill className="btn-icon" />
-          Add new product
+          　新しい製品の追加
         </Button>
         <ProductList />
       </div>

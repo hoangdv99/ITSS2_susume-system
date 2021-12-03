@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { InputGroup, FormControl, Table, Container, Button } from 'react-bootstrap';
+import { InputGroup, FormControl, Table, Container, Button, Form, Col } from 'react-bootstrap';
 import { useAdvertisement } from '../../contexts/AdvertisementContext';
 import { Link } from 'react-router-dom'
 
@@ -33,6 +33,18 @@ export default function AdCost() {
 
     setAdvs(newAdList);
   }
+  const onChangeFilter = (event) => {
+    if (event.target.value != 'None'){
+      let result = advertisements.filter(adv => {
+        if (adv.sns.name == event.target.value) {
+          return adv;
+        }
+      })
+      setAdvs(result);
+    } else {
+      setAdvs(advertisements);
+    }
+  }
 
 
   return (
@@ -46,20 +58,39 @@ export default function AdCost() {
       </div>
       <h3>コスト</h3>
       <div className="action">
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <InputGroup className="mb-3" style={{ width: "500px" }}>
-            <InputGroup.Text id="basic-addon1">探索</InputGroup.Text>
-            <FormControl
-              value={valueSearch}
-              placeholder="名前で探索？"
-              aria-label="探索"
-              aria-describedby="basic-addon1"
-              onChange={(event) => onChangeSearch(event)}
-            />
-          </InputGroup>
+        <div className="container">
+          <div className="row">
+            <div className="col">
+              <Form.Group className="mb-3" style={{ display: "flex", justifyContent: "flex-start" }}>
+              <Form.Label column sm={2}>
+              フィルター
+              </Form.Label>
+                <Col sm={10}>
+                  <Form.Select aria-label="Default select example" onChange={(event) => onChangeFilter(event)}>
+                    <option value="None">フィルターなし</option>
+                    <option value="Facebook">フェイスブック</option>
+                    <option value="Instagram">インスタグラム</option>
+                    <option value="Twitter">ツイッター</option>
+                  </Form.Select>
+                </Col>
+              </Form.Group>
+            </div>
+            <div className="col" style={{ display: "flex", justifyContent: "flex-start" }}>
+              <InputGroup className="mb-3" style={{ width: "500px" }}>
+                <InputGroup.Text id="basic-addon1">探索</InputGroup.Text>
+                <FormControl
+                  value={valueSearch}
+                  placeholder="商品名で検索する"
+                  aria-label="探索"
+                  aria-describedby="basic-addon1"
+                  onChange={(event) => onChangeSearch(event)}
+                />
+              </InputGroup>
+            </div>
+          </div>
         </div>
         <div>
-          <Table>
+          <Table striped bordered hover>
             <thead>
               <tr>
                 <th>ID</th>
@@ -76,11 +107,11 @@ export default function AdCost() {
                 advs.map(ad => (
                   <tr key={ad.id}>
                     <td>{ad.id}</td>
-                    <td>{new Date(ad.createdAt.seconds * 1000).toLocaleString('vi-GB', { timeZone: 'UTC' })}</td>
+                    <td>{new Date(ad.createdAt.seconds * 1000).toLocaleString('vi-GB')}</td>
                     <td>{ad.product.name}</td>
                     <td>{ad.content}</td>
                     <td>{ad.sns.name}</td>
-                    <td>{ad.sns.cost * totalViews(ad.view)}</td>
+                    <td>{Math.round((ad.sns.cost * totalViews(ad.view)+ Number.EPSILON)*100)/100}</td>
                   </tr>
                 ))
               }
