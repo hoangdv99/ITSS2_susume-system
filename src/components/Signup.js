@@ -59,7 +59,7 @@ export default function Signup() {
             </Form.Group>
             <Form.Group id="phone-number">
               <Form.Label>電話番号</Form.Label>
-              <Form.Control type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" ref={phoneRef} required />
+              <Form.Control type="tel" pattern="[0-9]{10}" ref={phoneRef} required />
             </Form.Group>
             <Button disabled={loading} className="w-100" type="submit">
               サインアップ
