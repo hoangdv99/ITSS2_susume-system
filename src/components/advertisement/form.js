@@ -11,8 +11,9 @@ import { useAdvertisement } from '../../contexts/AdvertisementContext'
 import { useProduct } from '../../contexts/ProductContext'
 import { sns } from '../../constants'
 import firebase from '@firebase/app-compat'
+import { toast, ToastContainer } from 'react-toastify'
 
-export default function AdvertisementForm({advertisementId}) {
+export default function AdvertisementForm({ advertisementId }) {
   const [content, setContent] = useState()
   const { createNewAdvertisement, editAdvertisement, advertisements } = useAdvertisement()
   const [validated, setValidated] = useState(false)
@@ -46,10 +47,30 @@ export default function AdvertisementForm({advertisementId}) {
       }
       if (advertisementId === undefined) {
         await createNewAdvertisement(advertisement)
+        toast.success('Created successfully', {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       } else {
         await editAdvertisement(advertisementId, advertisement)
+        toast.success('Edited successfully', {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
-      navigate('/advertisements')
+      setTimeout(() => {
+        navigate('/advertisements')
+      }, 1200);
     }
     setValidated(true)
     setLoading(false)
@@ -63,52 +84,63 @@ export default function AdvertisementForm({advertisementId}) {
   }
 
   return (
-      <Card bg="light">
-        <Card.Body>
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
-              <Form.Label column sm={2}>
-                詳細
-              </Form.Label>
-              <Col sm={10}>
-                <Form.Control type="text" value={content} onChange={e=>setContent(e.target.value)} required />
-                <Form.Control.Feedback type="invalid">
-                  詳細は必須です！
-                </Form.Control.Feedback>
-              </Col>
-            </Form.Group>
+    <Card bg="light">
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      /><ToastContainer />
+      <Card.Body>
+        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+            <Form.Label column sm={2}>
+              詳細
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control type="text" value={content} onChange={e => setContent(e.target.value)} required />
+              <Form.Control.Feedback type="invalid">
+                詳細は必須です！
+              </Form.Control.Feedback>
+            </Col>
+          </Form.Group>
 
-            <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm={2}>
-                SNS
-              </Form.Label>
-              <Col sm={10}>
-                <Form.Select aria-label="Default select example" value={selectedSns} onChange={handleSelectSns}>
-                  <option value="Facebook">フェイスブック</option>
-                  <option value="Instagram">インスタグラム</option>
-                  <option value="Twitter">ツイッター</option>
-                </Form.Select>
-              </Col>
-            </Form.Group>
+          <Form.Group as={Row} className="mb-3">
+            <Form.Label column sm={2}>
+              SNS
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Select aria-label="Default select example" value={selectedSns} onChange={handleSelectSns}>
+                <option value="Facebook">フェイスブック</option>
+                <option value="Instagram">インスタグラム</option>
+                <option value="Twitter">ツイッター</option>
+              </Form.Select>
+            </Col>
+          </Form.Group>
 
-            <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm={2}>
-                商材
-              </Form.Label>
-              <Col sm={10}>
-                <Form.Select aria-label="Default select example" value={selectedProduct} onChange={handleSelectProduct}>
-                  <option>-- 製品を選択する --</option>
-                  { products.map(product => (
-                    <option value={product.id}>{ product.name }</option>
-                  )) }
-                </Form.Select>
-              </Col>
-            </Form.Group>
-            <div className="d-flex justify-content-center">
-              <Button type="submit" variant="success" size="lg" disabled={loading}>作成</Button>
-            </div>
-          </Form>
-        </Card.Body>
-      </Card>
+          <Form.Group as={Row} className="mb-3">
+            <Form.Label column sm={2}>
+              商材
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Select aria-label="Default select example" value={selectedProduct} onChange={handleSelectProduct}>
+                <option>-- 製品を選択する --</option>
+                {products.map(product => (
+                  <option value={product.id}>{product.name}</option>
+                ))}
+              </Form.Select>
+            </Col>
+          </Form.Group>
+          <div className="d-flex justify-content-center">
+            <Button type="submit" variant="success" size="lg" disabled={loading}>作成</Button>
+          </div>
+        </Form>
+      </Card.Body>
+    </Card>
   )
 }

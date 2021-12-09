@@ -9,8 +9,9 @@ import {
 import { useNavigate } from 'react-router'
 import { useProduct } from '../../contexts/ProductContext'
 import { uploadImage } from '../../firebase'
+import { ToastContainer, toast } from 'react-toastify';
 
-export default function ProductForm({productId}) {
+export default function ProductForm({ productId }) {
   const [name, setName] = useState('')
   const [price, setPrice] = useState()
   const [quantity, setQuantity] = useState()
@@ -47,10 +48,31 @@ export default function ProductForm({productId}) {
       }
       if (productId === undefined) {
         await createNewProduct(product)
+        toast.success('Created successfully', {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
+
       } else {
         await editProduct(productId, product)
+        toast.success('Edited successfully', {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
       }
-      navigate('/products')
+      setTimeout(() => {
+        navigate('/products')
+      }, 1200)
     }
     setValidated(true)
     setLoading(false)
@@ -68,33 +90,43 @@ export default function ProductForm({productId}) {
   }
 
   return (
-      <Card bg="light">
-        <Card.Body>
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
-              <Form.Label column sm={2}>
-                名前
-              </Form.Label>
-              <Col sm={10}>
-                <Form.Control type="text" value={name} onChange={e=>setName(e.target.value)} required />
-                <Form.Control.Feedback type="invalid">
-                  名前は必須です！
-                </Form.Control.Feedback>
-              </Col>
-            </Form.Group>
+    <Card bg="light">
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      /><ToastContainer />
+      <Card.Body>
+        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+            <Form.Label column sm={2}>
+              名前
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control type="text" value={name} onChange={e => setName(e.target.value)} required />
+              <Form.Control.Feedback type="invalid">
+                名前は必須です！
+              </Form.Control.Feedback>
+            </Col>
+          </Form.Group>
 
-            <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
-              <Form.Label column sm={2}>
-                価格
-              </Form.Label>
-              <Col sm={10}>
-                <Form.Control type="number" value={price} onChange={e=>setPrice(e.target.value)} required />
-                <Form.Control.Feedback type="invalid">
-                  価格は必須です！
-                </Form.Control.Feedback>
-              </Col>
-            </Form.Group>
-
+          <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+            <Form.Label column sm={2}>
+              価格
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control type="number" value={price} onChange={e => setPrice(e.target.value)} required />
+              <Form.Control.Feedback type="invalid">
+                価格は必須です！
+              </Form.Control.Feedback>
+            </Col>
+          </Form.Group>
             <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
               <Form.Label column sm={2}>
                 残額
@@ -106,21 +138,20 @@ export default function ProductForm({productId}) {
                 </Form.Control.Feedback>
               </Col>
             </Form.Group>
-
-            <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
-              <Form.Label column sm={2}>
-                写真
-              </Form.Label>
-              <Col sm={10}>
-                <Form.Control type="file" onChange={handleChange} />
-              </Col>
-            </Form.Group>
-            { fileUpload && <img src={fileUpload} style={{ width:"120px", height:"120px"}} alt="product" /> }
-            <div className="d-flex justify-content-center">
-              <Button type="submit" variant="success" size="lg" disabled={loading}>作成</Button>
-            </div>
-          </Form>
-        </Card.Body>
-      </Card>
+          <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+            <Form.Label column sm={2}>
+              写真
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control type="file" onChange={handleChange} />
+            </Col>
+          </Form.Group>
+          {fileUpload && <img src={fileUpload} style={{ width: "120px", height: "120px" }} alt="product" />}
+          <div className="d-flex justify-content-center">
+            <Button type="submit" variant="success" size="lg" disabled={loading}>作成</Button>
+          </div>
+        </Form>
+      </Card.Body>
+    </Card>
   )
 }

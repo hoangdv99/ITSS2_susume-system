@@ -1,7 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar, Container, NavDropdown, Nav } from "react-bootstrap";
-import Logo from "../../assets/images/logo.svg";
+import Logo from "../../assets/images/logo3.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -22,8 +22,8 @@ export default function Header() {
         <Navbar.Brand>
           <img
             src={Logo}
-            width="30"
-            height="30"
+            width="50"
+            height="50"
             className="d-inline-block align-top"
             alt="React Bootstrap logo"
             onClick={onLogoClick}
