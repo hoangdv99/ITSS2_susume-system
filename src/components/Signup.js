@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react"
 import { Form, Button, Card, Alert, Container } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
-import validator from 'validator'
 export default function Signup() {
   const emailRef = useRef()
   const passwordRef = useRef()
@@ -18,10 +17,15 @@ export default function Signup() {
     e.preventDefault()
 
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("パスワードが一致していない")
+      return setError("パスワードが一致していないです。")
     }
-    if (validator.isMobilePhone(phoneRef.current.value) === false) {
-      return setError("電話番号が無効だ")
+    if (typeof phoneRef.current.value !== "undefined") {
+      var pattern = new RegExp(/^[0-9\b]+$/);
+      if (!pattern.test(phoneRef.current.value)) {
+        return setError("番号のみを入力してください。")
+      } else if (phoneRef.current.value.length != 10){
+        return setError("電話番号が無効です。電話番号の長さは10です。")
+      }
     }
     try {
       setError("")
@@ -29,7 +33,7 @@ export default function Signup() {
       await signup(nameRef.current.value, emailRef.current.value, passwordRef.current.value, phoneRef.current.value)
       navigate('/')
     } catch {
-      setError("アカウントの作成に失敗した")
+      setError("アカウントの作成に失敗しました。")
     }
 
     setLoading(false)
@@ -61,7 +65,7 @@ export default function Signup() {
             </Form.Group>
             <Form.Group id="phone-number">
               <Form.Label>電話番号</Form.Label>
-              <Form.Control type="tel" pattern="[0]{1}[0-9]{9}" ref={phoneRef} required />
+              <Form.Control type="text" ref={phoneRef} required />
             </Form.Group>
             <Button disabled={loading} className="w-100" type="submit">
               サインアップ

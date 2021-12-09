@@ -102,7 +102,7 @@ export default function ProductForm({productId}) {
               <Col sm={10}>
                 <Form.Control type="number" value={quantity} onChange={e=>setQuantity(e.target.value)} required />
                 <Form.Control.Feedback type="invalid">
-                  残額は必須です！
+                  残っている製品は必須です！
                 </Form.Control.Feedback>
               </Col>
             </Form.Group>
