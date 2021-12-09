@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react"
 import { Form, Button, Card, Alert, Container } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
-
+import validator from 'validator'
 export default function Signup() {
   const emailRef = useRef()
   const passwordRef = useRef()
@@ -18,16 +18,18 @@ export default function Signup() {
     e.preventDefault()
 
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("Passwords do not match")
+      return setError("パスワードが一致していない")
     }
-
+    if (validator.isMobilePhone(phoneRef.current.value) === false) {
+      return setError("電話番号が無効だ")
+    }
     try {
       setError("")
       setLoading(true)
       await signup(nameRef.current.value, emailRef.current.value, passwordRef.current.value, phoneRef.current.value)
       navigate('/')
     } catch {
-      setError("Failed to create an account")
+      setError("アカウントの作成に失敗した")
     }
 
     setLoading(false)
@@ -59,7 +61,7 @@ export default function Signup() {
             </Form.Group>
             <Form.Group id="phone-number">
               <Form.Label>電話番号</Form.Label>
-              <Form.Control type="tel" pattern="[0-9]{10}" ref={phoneRef} required />
+              <Form.Control type="tel" pattern="[0]{1}[0-9]{9}" ref={phoneRef} required />
             </Form.Group>
             <Button disabled={loading} className="w-100" type="submit">
               サインアップ
