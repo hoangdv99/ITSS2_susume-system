@@ -26,11 +26,10 @@ function Chart() {
       let e = {}
       e["time"] = time
       advertisements.forEach(ad => {
-        e[ad.id] = ad.view[time - 1]
+        e[ad.title] = ad.view[time - 1]
       })
       setData(data => [...data, e])
     })
-    console.log(data);
   }, [advertisements])
   
   const handleOnChange = (position) => {
@@ -79,7 +78,7 @@ function Chart() {
                   checked={checked[index]}
                   onChange={() => handleOnChange(index + 1)} 
                 />
-                <label>{pref.content}</label>
+                <label>{pref.title}</label>
               </div>
             ))}
           </div>
@@ -104,7 +103,7 @@ function Chart() {
               <Tooltip />
               <Legend onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} />
               {advertisements.map((pref, index) => checked[index] ? (
-                <Line  key={index + 1} dataKey={pref.id} stroke={dynamicColors()} strokeOpacity={opacity[pref.id]} activeDot={{ r: 8 }} />
+                <Line  key={index + 1} dataKey={pref.title} stroke={dynamicColors()} strokeOpacity={opacity[pref.title]} activeDot={{ r: 8 }} />
               ) : null)}
             </LineChart>
           </ResponsiveContainer>

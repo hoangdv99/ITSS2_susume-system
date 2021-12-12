@@ -64,6 +64,7 @@ export default function AdvertisementList() {
         <thead>
           <tr>
             <th className="text-center">ID</th>
+            <th className="text-center">タイトル</th>
             <th className="text-center">商材</th>
             <th className="text-center">詳細</th>
             <th className="text-center">SNS</th>
@@ -74,6 +75,7 @@ export default function AdvertisementList() {
           {paginatedAds.map(advertisement => (
               <tr key={advertisement.id}>
                 <td className="text-center">{ advertisement.id }</td>
+                <td className="text-center">{ advertisement.title }</td>
                 <td className="text-center">{ advertisement.product.name }</td>
                 <td className="text-center">{ advertisement.content }</td>              
                 <td className="text-center">{ advertisement.sns.name }</td>

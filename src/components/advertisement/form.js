@@ -14,6 +14,7 @@ import firebase from '@firebase/app-compat'
 import { toast, ToastContainer } from 'react-toastify'
 
 export default function AdvertisementForm({ advertisementId }) {
+  const [title, setTitle] = useState('')
   const [content, setContent] = useState()
   const { createNewAdvertisement, editAdvertisement, advertisements } = useAdvertisement()
   const [validated, setValidated] = useState(false)
@@ -29,6 +30,7 @@ export default function AdvertisementForm({ advertisementId }) {
       setContent(ad.content)
       setSelectedSns(ad.sns.name)
       setSelectedProduct(ad.product.id)
+      setTitle(ad.title)
     }
   }, [advertisementId])
 
@@ -43,7 +45,8 @@ export default function AdvertisementForm({ advertisementId }) {
         content,
         sns: sns.find(item => item.name === selectedSns),
         product: products.find(product => product.id === selectedProduct) || {},
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        title
       }
       if (advertisementId === undefined) {
         await createNewAdvertisement(advertisement)
@@ -98,6 +101,18 @@ export default function AdvertisementForm({ advertisementId }) {
       /><ToastContainer />
       <Card.Body>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+            <Form.Label column sm={2}>
+              タイトル
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control type="text" value={title} onChange={e => setTitle(e.target.value)} required />
+              <Form.Control.Feedback type="invalid">
+              タイトルは必須です！
+              </Form.Control.Feedback>
+            </Col>
+          </Form.Group>
+
           <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
             <Form.Label column sm={2}>
               詳細
