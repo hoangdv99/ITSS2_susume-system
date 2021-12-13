@@ -4,7 +4,8 @@ import {
   Col,
   Row,
   Card,
-  Button
+  Button,
+  Alert,
 } from 'react-bootstrap'
 import { useNavigate } from 'react-router'
 import { useAdvertisement } from '../../contexts/AdvertisementContext'
@@ -86,6 +87,12 @@ export default function AdvertisementForm({ advertisementId }) {
     setSelectedProduct(e.target.value)
   }
 
+  const warning_alert = () => {
+    if (products.length == 0) {
+      return <Alert variant="danger" >製品がありません。広告の作成する前に、製品の追加をしてください。</Alert>;
+    }
+    return null;
+  }
   return (
     <Card bg="light">
       <ToastContainer
@@ -100,6 +107,7 @@ export default function AdvertisementForm({ advertisementId }) {
         pauseOnHover
       /><ToastContainer />
       <Card.Body>
+        {warning_alert()}
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
             <Form.Label column sm={2}>
@@ -137,7 +145,6 @@ export default function AdvertisementForm({ advertisementId }) {
               </Form.Select>
             </Col>
           </Form.Group>
-
           <Form.Group as={Row} className="mb-3">
             <Form.Label column sm={2}>
               商材
