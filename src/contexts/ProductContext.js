@@ -43,6 +43,7 @@ export function ProductProvider({ children }) {
     const newProductList = products.filter(product => product.id !== id)
     await firestore.collection('products').doc(id).delete()
     setProducts(newProductList)
+    setFlag(flag => !flag)
   }
 
   const value = { products, getProducts, createNewProduct, deleteProduct, editProduct }
