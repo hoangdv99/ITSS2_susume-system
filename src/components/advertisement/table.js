@@ -63,12 +63,12 @@ export default function AdvertisementList() {
         /><ToastContainer />
         <thead>
           <tr>
-            <th className="text-center">ID</th>
-            <th className="text-center">タイトル</th>
-            <th className="text-center">商材</th>
-            <th className="text-center">詳細</th>
-            <th className="text-center">SNS</th>
-            <th className="text-center">活動</th>
+            <th className="text-center col-md-1">ID</th>
+            <th className="text-center col-md-2">タイトル</th>
+            <th className="text-center col-md-2">商材</th>
+            <th className="text-center col-md-4">詳細</th>
+            <th className="text-center col-md-1">SNS</th>
+            <th className="text-center col-md-2">活動</th>
           </tr>
         </thead>
         <tbody>
