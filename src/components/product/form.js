@@ -48,7 +48,7 @@ export default function ProductForm({ productId }) {
       }
       if (productId === undefined) {
         await createNewProduct(product)
-        toast.success('Created successfully', {
+        toast.success('正常に作成されました', {
           position: "top-right",
           autoClose: 1000,
           hideProgressBar: false,
@@ -60,7 +60,7 @@ export default function ProductForm({ productId }) {
 
       } else {
         await editProduct(productId, product)
-        toast.success('Edited successfully', {
+        toast.success('正常に編集されました', {
           position: "top-right",
           autoClose: 1000,
           hideProgressBar: false,
@@ -148,7 +148,7 @@ export default function ProductForm({ productId }) {
           </Form.Group>
           {fileUpload && <img src={fileUpload} style={{ width: "120px", height: "120px" }} alt="product" />}
           <div className="d-flex justify-content-center">
-            <Button type="submit" variant="success" size="lg" disabled={loading}>作成</Button>
+            <Button type="submit" variant="success" size="lg" disabled={loading}>{productId ? '更新' : '作成'}</Button>
           </div>
         </Form>
       </Card.Body>

@@ -50,7 +50,7 @@ export default function AdvertisementForm({ advertisementId }) {
       }
       if (advertisementId === undefined) {
         await createNewAdvertisement(advertisement)
-        toast.success('Created successfully', {
+        toast.success('正常に作成されました', {
           position: "top-right",
           autoClose: 1000,
           hideProgressBar: false,
@@ -61,7 +61,7 @@ export default function AdvertisementForm({ advertisementId }) {
         });
       } else {
         await editAdvertisement(advertisementId, advertisement)
-        toast.success('Edited successfully', {
+        toast.success('正常に編集されました', {
           position: "top-right",
           autoClose: 1000,
           hideProgressBar: false,
@@ -152,7 +152,7 @@ export default function AdvertisementForm({ advertisementId }) {
             </Col>
           </Form.Group>
           <div className="d-flex justify-content-center">
-            <Button type="submit" variant="success" size="lg" disabled={loading}>作成</Button>
+            <Button type="submit" variant="success" size="lg" disabled={loading || !selectedProduct}>{advertisementId ? '更新' : '作成'}</Button>
           </div>
         </Form>
       </Card.Body>

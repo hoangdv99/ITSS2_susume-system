@@ -34,9 +34,9 @@ export default function AdvertisementList() {
 	}, [advertisements]);
 
   const remove = (id) => {
-    if (window.confirm('Are you sure to delete this item?')) {
+    if (window.confirm('このアイテムを削除してもよろしいですか？')) {
       deleteAdvertisement(id)
-      toast.success('Deleted successfully', {
+      toast.success('正常に削除されました', {
         position: "top-right",
         autoClose: 1000,
         hideProgressBar: false,

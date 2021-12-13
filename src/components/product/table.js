@@ -4,9 +4,11 @@ import { Link } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
 import { useEffect, useState } from 'react'
 import Pagination from '@material-ui/lab/Pagination';
+import { useAdvertisement } from '../../contexts/AdvertisementContext'
 
 export default function ProductList() {
   const { products, deleteProduct } = useProduct()
+  const { advertisements } = useAdvertisement()
   const [page, setPage] = useState(1)
   const [numberPage, setNumberPage] = useState(1)
   const [paginatedProducts, setPaginatedProducts] = useState([])
@@ -34,11 +36,30 @@ export default function ProductList() {
 	}, [products]);
 
   const remove = (id) => {
-    if (window.confirm('Are you sure to delete this item?')) {
+    let checkAdExisted = false;
+    if (window.confirm('このアイテムを削除してもよろしいですか？')) {
+      advertisements.forEach(ad => {
+        if (ad.product.id === id) {
+          checkAdExisted = true
+        }
+      })
+    }
+
+    if (!checkAdExisted) {
       deleteProduct(id)
-      toast.success('Deleted successfully', {
+      toast.success('正常に削除されました', {
         position: "top-right",
         autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      toast.error('広告されている商材を削除してはいけない', {
+        position: "top-right",
+        autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -60,7 +81,7 @@ export default function ProductList() {
           pauseOnFocusLoss
           draggable
           pauseOnHover
-        /><ToastContainer />
+        />
         <thead>
           <tr>
             <th className="text-center">ID</th>
