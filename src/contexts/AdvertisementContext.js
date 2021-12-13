@@ -49,6 +49,7 @@ export function AdvertisementProvider({ children }) {
     }
     await firestore.collection('advertisements').doc(id).set(newAdvertisement)
     setAdvertisements([...advertisements, newAdvertisement])
+    setFlag(flag => !flag)
   }
 
   const editAdvertisement = async (id, advertisement) => {
@@ -60,6 +61,7 @@ export function AdvertisementProvider({ children }) {
     const newAdvertisementList = advertisements.filter(advertisement => advertisement.id !== id)
     await firestore.collection('advertisements').doc(id).delete()
     setAdvertisements(newAdvertisementList)
+    setFlag(flag => !flag)
   }
 
   const value = { advertisements, getAdvertisements, createNewAdvertisement, deleteAdvertisement, editAdvertisement }
