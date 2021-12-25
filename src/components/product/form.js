@@ -15,6 +15,8 @@ export default function ProductForm({ productId }) {
   const [name, setName] = useState('')
   const [price, setPrice] = useState()
   const [quantity, setQuantity] = useState()
+  const [size, setSize] = useState([])
+  const [material, setMaterial] = useState('')
   const { createNewProduct, products, editProduct } = useProduct()
   const [validated, setValidated] = useState(false)
   const [fileUpload, setFileUpload] = useState()
@@ -30,6 +32,8 @@ export default function ProductForm({ productId }) {
       setQuantity(product.quantity)
       setFileUpload(product.image)
       setFileName(product.image)
+      setSize(product.size)
+      setMaterial(product.material)
     }
   }, [productId])
 
@@ -44,6 +48,8 @@ export default function ProductForm({ productId }) {
         name,
         price,
         quantity,
+        size,
+        material,
         image: fileUpload.includes('https') ? fileName : await uploadImage(fileName)
       }
       if (productId === undefined) {
@@ -89,6 +95,10 @@ export default function ProductForm({ productId }) {
     reader.readAsDataURL(e.target.files[0])
   }
 
+  const handleSelect = (e) => {
+    setSize(Array.from(e.target.selectedOptions, (item) => item.value));
+  }
+
   return (
     <Card bg="light">
       <ToastContainer
@@ -127,17 +137,45 @@ export default function ProductForm({ productId }) {
               </Form.Control.Feedback>
             </Col>
           </Form.Group>
-            <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
-              <Form.Label column sm={2}>
-                残額
-              </Form.Label>
-              <Col sm={10}>
-                <Form.Control type="number" value={quantity} onChange={e=>setQuantity(e.target.value)} required />
-                <Form.Control.Feedback type="invalid">
-                  残っている製品は必須です！
-                </Form.Control.Feedback>
-              </Col>
-            </Form.Group>
+          
+          <Form.Group as={Row} className="mb-3">
+            <Form.Label column sm={2}>
+              サイズ
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Select aria-label="Default select example" value={size} onChange={handleSelect} multiple={true}> 
+                <option value="S">サイズ　S</option>
+                <option value="M">サイズ　M</option>
+                <option value="L">サイズ　L</option>
+                <option value="XL">サイズ　XL</option>
+                <option value="XXL">サイズ　XXL</option>
+              </Form.Select>
+            </Col>
+          </Form.Group>
+
+          <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+            <Form.Label column sm={2}>
+              材料
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control type="text" value={material} onChange={e => setMaterial(e.target.value)} required />
+              <Form.Control.Feedback type="invalid">
+                材料は必須です！
+              </Form.Control.Feedback>
+            </Col>
+          </Form.Group>
+
+          <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+            <Form.Label column sm={2}>
+              残額
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control type="number" value={quantity} onChange={e=>setQuantity(e.target.value)} required />
+              <Form.Control.Feedback type="invalid">
+                残っている製品は必須です！
+              </Form.Control.Feedback>
+            </Col>
+          </Form.Group>
           <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
             <Form.Label column sm={2}>
               写真
