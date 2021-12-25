@@ -12,25 +12,26 @@ var dynamicColors = function() {
   return "rgb(" + r + ", " + g + ", " + b + ")";
 };
 
-const times = [1, 2, 3, 4, 5, 6, 7]
-
 function Chart() {
   const { advertisements } = useAdvertisement()
   const [checked, setChecked] = useState([]);
   const [data, setData] = useState([])
+  const [period, setPeriod] = useState('weekly')
+  const [times, setTimes] = useState(7)
   
   useEffect(() => {
     setChecked(new Array(advertisements.length).fill(false))
     setData([])
-    times.forEach(time => {
+    for (let time = 1; time <= times; time++ )
+    {
       let e = {}
       e["time"] = time
       advertisements.forEach(ad => {
         e[ad.title] = ad.view[time - 1]
       })
       setData(data => [...data, e])
-    })
-  }, [advertisements])
+    }
+  }, [advertisements, times])
   
   const handleOnChange = (position) => {
     const updatedCheckedState = checked.map((item, index) =>
@@ -53,6 +54,12 @@ function Chart() {
     const { dataKey } = o;
     setOpacity({ ...opacity, [dataKey]: 1 });
   };
+
+  const changePeriod = (e) => {
+    setPeriod(e.target.value)
+    if (e.target.value === 'weekly') setTimes(7)
+    else setTimes(30)
+  }
   
   return (
     <Container>
@@ -63,24 +70,29 @@ function Chart() {
               <Button as={Link} to='/chart'>広告チャート</Button>
               <Button as={Link} to='/'>広告コスト</Button>
             </div>
-            
         </div>  
         <div className="prefs-container">
           <h3>チャート</h3>
-          <div className="prefs-list">
-            {advertisements.map((pref, index) => (
-              <div key={index + 1}>
-                <input
-                  type="checkbox"
-                  id={index + 1}
-                  name={pref.id}
-                  value={pref.id}
-                  checked={checked[index]}
-                  onChange={() => handleOnChange(index + 1)} 
-                />
-                <label>{pref.title}</label>
-              </div>
-            ))}
+          <div className="wrapped" style={{ display: 'flex' }}>
+            <select value={period} onChange={changePeriod} style={{ marginRight: '10px' }}>
+              <option value='weekly'>This week</option>
+              <option value='monthly'>This month</option>
+            </select>
+            <div className="prefs-list" style={{ flex: 5 }}>
+              {advertisements.map((pref, index) => (
+                <div key={index + 1}>
+                  <input
+                    type="checkbox"
+                    id={index + 1}
+                    name={pref.id}
+                    value={pref.id}
+                    checked={checked[index]}
+                    onChange={() => handleOnChange(index + 1)} 
+                  />
+                  <label>{pref.title}</label>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         
