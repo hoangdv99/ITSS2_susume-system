@@ -88,6 +88,8 @@ export default function ProductList() {
             <th className="text-center">名前</th>
             <th className="text-center">写真</th>
             <th className="text-center">価格</th>
+            <th className="text-center">サイズ</th>
+            <th className="text-center">材料</th>
             <th className="text-center">残額</th>
             <th className="text-center">活動</th>
           </tr>
@@ -102,6 +104,8 @@ export default function ProductList() {
               </td>
               <td className="text-center">{product.price}</td>
               <td className="text-center">{product.quantity}</td>
+              <td className="text-center">{product.size ? product.size.toString() : ''}</td>
+              <td className="text-center">{product.material}</td>
               <td className="text-center">
                 <Button variant="success" style={{ marginRight: "10px" }}>
                   <Link to={`/product/${product.id}/edit`} style={{ textDecoration: "none", color: '#FFF' }}>修正</Link>
