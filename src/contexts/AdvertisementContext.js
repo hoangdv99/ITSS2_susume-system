@@ -33,22 +33,19 @@ export function AdvertisementProvider({ children }) {
 
   const createNewAdvertisement = async (advertisement) => {
     const id = format('yyyyMMddHHmmss', new Date())
+    const view = []
+    for(let i = 0; i < 30; i++) {
+      view[i] = getRandomArbitrary(0, 100)
+    }
     const newAdvertisement = {
       ...advertisement,
       userId: currentUser.uid, 
       id,
-      view: [
-        getRandomArbitrary(0, 100),
-        getRandomArbitrary(0, 100),
-        getRandomArbitrary(0, 100),
-        getRandomArbitrary(0, 100),
-        getRandomArbitrary(0, 100),
-        getRandomArbitrary(0, 100),
-        getRandomArbitrary(0, 100)
-      ]
+      view
     }
     await firestore.collection('advertisements').doc(id).set(newAdvertisement)
     setAdvertisements([...advertisements, newAdvertisement])
+    setFlag(flag => !flag)
   }
 
   const editAdvertisement = async (id, advertisement) => {
@@ -60,6 +57,7 @@ export function AdvertisementProvider({ children }) {
     const newAdvertisementList = advertisements.filter(advertisement => advertisement.id !== id)
     await firestore.collection('advertisements').doc(id).delete()
     setAdvertisements(newAdvertisementList)
+    setFlag(flag => !flag)
   }
 
   const value = { advertisements, getAdvertisements, createNewAdvertisement, deleteAdvertisement, editAdvertisement }

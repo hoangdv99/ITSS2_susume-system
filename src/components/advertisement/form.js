@@ -46,7 +46,7 @@ export default function AdvertisementForm({ advertisementId }) {
         content,
         sns: sns.find(item => item.name === selectedSns),
         product: products.find(product => product.id === selectedProduct) || {},
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        createdAt: new Date(),
         title
       }
       if (advertisementId === undefined) {
