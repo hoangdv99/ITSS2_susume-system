@@ -89,7 +89,7 @@ export default function AdvertisementForm({ advertisementId }) {
 
   const warning_alert = () => {
     if (products.length == 0) {
-      return <Alert variant="danger" >製品がありません。広告の作成する前に、製品の追加をしてください。</Alert>;
+      return <Alert variant="warning" >製品がありません。広告の作成する前に、製品の追加をしてください。</Alert>;
     }
     return null;
   }

@@ -103,9 +103,9 @@ export default function ProductList() {
                 <img src={product.image} style={{ width: "80px", height: "80px" }} alt="product" />
               </td>
               <td className="text-center">{product.price}</td>
-              <td className="text-center">{product.quantity}</td>
               <td className="text-center">{product.size ? product.size.toString() : ''}</td>
               <td className="text-center">{product.material}</td>
+              <td className="text-center">{product.quantity}</td>
               <td className="text-center">
                 <Button variant="success" style={{ marginRight: "10px" }}>
                   <Link to={`/product/${product.id}/edit`} style={{ textDecoration: "none", color: '#FFF' }}>修正</Link>
