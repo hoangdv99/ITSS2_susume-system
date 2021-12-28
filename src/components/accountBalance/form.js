@@ -58,17 +58,13 @@ export default function AddMoneyToAccount() {
 
       <Card.Body>
         {warning_alert()}
-        今の勘定残高: {}
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
-            <Form.Label column sm={2}>
-              勘定残高を足す
+            <Form.Label>
+              予算の最高限度を足す
             </Form.Label>
-            <Col sm={10}>
+            <Col>
               <Form.Control type="number" value={balance} onChange={e => setbalance(parseInt(e.target.value))} required />
-              <Form.Control.Feedback type="invalid">
-              金閣は必須です！
-              </Form.Control.Feedback>
             </Col>
           </Form.Group>
           <div className="d-flex justify-content-center">
