@@ -30,7 +30,7 @@ export default function Signup() {
     try {
       setError("")
       setLoading(true)
-      await signup(nameRef.current.value, emailRef.current.value, passwordRef.current.value, phoneRef.current.value)
+      await signup(nameRef.current.value, emailRef.current.value, passwordRef.current.value, phoneRef.current.value, 0)
       navigate('/')
     } catch {
       setError("アカウントの作成に失敗しました。")

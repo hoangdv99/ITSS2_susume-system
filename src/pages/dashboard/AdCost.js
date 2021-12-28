@@ -4,13 +4,21 @@ import { useAdvertisement } from '../../contexts/AdvertisementContext';
 import { Link } from 'react-router-dom'
 
 export default function AdCost() {
-  const { advertisements } = useAdvertisement();
+  const { advertisements, getTotalCost} = useAdvertisement();
   const [valueSearch, setValueSearch] = useState('');
+  const [total, setTotal] = useState(0);
   const [advs, setAdvs] = useState(advertisements);
 
 
   useEffect(() => {
     setAdvs(advertisements)
+    async function getTotal(){
+      let res = await getTotalCost();
+      console.log(res);
+      setTotal(res)
+    }
+    getTotal();
+
   }, [advertisements])
 
   const totalViews = (views) => {

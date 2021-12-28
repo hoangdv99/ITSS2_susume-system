@@ -9,16 +9,42 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
+  const [flag, setFlag] = useState(false)
   const [loading, setLoading] = useState(true);
 
-  async function signup(name, email, password, phone) {
+  async function signup(name, email, password, phone, accountBalance) {
     const user = await auth.createUserWithEmailAndPassword(email, password);
     await firestore.collection("users").doc(user.user.uid).set({
       id: user.user.uid,
       name,
       email,
       phone,
+      accountBalance,
     });
+  }
+
+  async function getBalance(id){
+    let result = []
+    await firestore.collection('users').where('id', '==' ,id).get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            result.push(doc.data().accountBalance);
+        });
+    })
+    .catch((error) => {
+        console.log("Error getting documents: ", error);
+    });
+
+    return result[0]
+  }
+  async function addMoneyToAccount(id, accountBalance){
+    await firestore.collection("users").doc(id).update(
+      {
+        accountBalance: accountBalance
+      }
+    )
+
+    setFlag(!flag)
   }
 
   function login(email, password) {
@@ -48,7 +74,7 @@ export function AuthProvider({ children }) {
     });
 
     return unsubscribe;
-  }, []);
+  }, [flag]);
 
   const value = {
     currentUser,
@@ -58,6 +84,8 @@ export function AuthProvider({ children }) {
     resetPassword,
     updateEmail,
     updatePassword,
+    getBalance,
+    addMoneyToAccount
   };
 
   return (

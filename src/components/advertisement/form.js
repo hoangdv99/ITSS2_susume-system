@@ -13,19 +13,36 @@ import { useProduct } from '../../contexts/ProductContext'
 import { sns } from '../../constants'
 import firebase from '@firebase/app-compat'
 import { toast, ToastContainer } from 'react-toastify'
+import { useAuth } from '../../contexts/AuthContext'
 
 export default function AdvertisementForm({ advertisementId }) {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState()
-  const { createNewAdvertisement, editAdvertisement, advertisements } = useAdvertisement()
+  const { createNewAdvertisement, editAdvertisement, advertisements, getTotalCost } = useAdvertisement()
   const [validated, setValidated] = useState(false)
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const { products } = useProduct()
   const [selectedSns, setSelectedSns] = useState("Facebook")
   const [selectedProduct, setSelectedProduct] = useState('')
+  const [total, setTotal] = useState(0);
+  const [currentBalance, setCurrentBalance] = useState(0);
+  const { getBalance, currentUser } = useAuth();
 
   useEffect(() => {
+    async function getTotal(){
+        let res = await getTotalCost();
+        console.log(res);
+        setTotal(res)
+      }
+      getTotal();
+
+      async function getCurrentBalance(){
+        let cb = await getBalance(currentUser.uid)
+        setCurrentBalance(cb)
+      }
+
+      getCurrentBalance();
     if (advertisementId) {
       const ad = advertisements.find(ad => ad.id === advertisementId)
       setContent(ad.content)
@@ -159,8 +176,14 @@ export default function AdvertisementForm({ advertisementId }) {
             </Col>
           </Form.Group>
           <div className="d-flex justify-content-center">
-            <Button type="submit" variant="success" size="lg" disabled={loading || !selectedProduct}>{advertisementId ? '更新' : '作成'}</Button>
+            <Button type="submit" variant="success" size="lg" disabled={loading || !selectedProduct || total > currentBalance}>{advertisementId ? '更新' : '作成'}</Button>
           </div>
+          {console.log(total, currentBalance)}
+          {total > currentBalance && 
+            <div style={{borderRadius: "5px", backgroundColor: "rgba(255,229,100,0.3)", borderLeft: "solid 4px #ffe564", padding: "16px 8px"}}>
+              勘定残高が足りません!広告を作成できません。
+            </div>
+          }
         </Form>
       </Card.Body>
     </Card>
