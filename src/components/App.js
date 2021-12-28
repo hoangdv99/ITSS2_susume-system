@@ -13,6 +13,7 @@ import EditProduct from "../pages/products/edit"
 import Advertisements from '../pages/advertisements'
 import NewAdvertisement from '../pages/advertisements/new'
 import EditAdvertisement from "../pages/advertisements/edit"
+import AddMoneyToAccount from "../pages/accountBalance";
 import AdCost  from "../pages/dashboard/AdCost";
 import Chart from "../pages/dashboard/chart"
 import { ProductProvider } from "../contexts/ProductContext"
@@ -30,6 +31,9 @@ function App() {
               </Route>
               <Route path='/update-profile' element={<PrivateRoute />}>
                 <Route path='/update-profile' element={<UpdateProfile />}/>
+              </Route>
+              <Route path='/account-balance' element={<PrivateRoute />}>
+                <Route path='/account-balance' element={<AddMoneyToAccount />}/>
               </Route>
               <Route path='/products' element={<PrivateRoute />}>
                 <Route path='/products' element={<Products />}/>

@@ -31,6 +31,22 @@ export function AdvertisementProvider({ children }) {
     })
   }
 
+  const getTotalCost = async () => {
+    let total = 0;
+    const data = await firestore.collection('advertisements').where('userId', '==', currentUser.uid).get();
+    data.forEach(doc => {
+      let totalView = 0;
+      doc.data().view.map(v => {
+        totalView = totalView + v
+        return v
+      })
+
+      total = total + totalView*doc.data().sns.cost
+    })
+
+    return total;
+  }
+
   const createNewAdvertisement = async (advertisement) => {
     const id = format('yyyyMMddHHmmss', new Date())
     const view = []
@@ -60,7 +76,7 @@ export function AdvertisementProvider({ children }) {
     setFlag(flag => !flag)
   }
 
-  const value = { advertisements, getAdvertisements, createNewAdvertisement, deleteAdvertisement, editAdvertisement }
+  const value = { advertisements, getAdvertisements, createNewAdvertisement, deleteAdvertisement, editAdvertisement, getTotalCost }
   return (
     <AdvertisementContext.Provider value={value}>
       { children }
