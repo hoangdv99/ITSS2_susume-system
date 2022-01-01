@@ -20,7 +20,7 @@ function Chart() {
   const [times, setTimes] = useState(7)
   
   useEffect(() => {
-    setChecked(new Array(advertisements.length).fill(false))
+    setChecked(new Array(advertisements.length).fill(true))
     setData([])
     for (let time = 1; time <= times; time++ )
     {
@@ -80,14 +80,15 @@ function Chart() {
             </select>
             <div className="prefs-list" style={{ flex: 5 }}>
               {advertisements.map((pref, index) => (
-                <div key={index + 1}>
+                <div key={index + 1} className="ad">
                   <input
                     type="checkbox"
                     id={index + 1}
                     name={pref.id}
                     value={pref.id}
                     checked={checked[index]}
-                    onChange={() => handleOnChange(index + 1)} 
+                    onChange={() => handleOnChange(index + 1)}
+                    className="checkbox"
                   />
                   <label>{pref.title}</label>
                 </div>

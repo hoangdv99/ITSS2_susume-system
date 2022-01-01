@@ -1,6 +1,6 @@
 .prefs-list {
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
   align-items: center;
 }
 
@@ -14,4 +14,12 @@
   justify-content: space-evenly;
   align-items: center;
   margin-bottom: 30px;
+}
+.ad {
+  margin-right: 10px;
+}
+.checkbox {
+  width: 15px;
+  height: 15px;
+  margin-right: 3px;
 }
