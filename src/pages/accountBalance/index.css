@@ -11,3 +11,24 @@
   justify-content: space-evenly;
   align-items: center;
 }
+
+.action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0px;
+}
+
+.action button {
+  margin: 0px 20px;
+}
+
+.modal-action{
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.alert{
+  font-size: 12px;
+}
