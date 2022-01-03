@@ -75,8 +75,8 @@ function Chart() {
           <h3>チャート</h3>
           <div className="wrapped" style={{ display: 'flex' }}>
             <select value={period} onChange={changePeriod} style={{ marginRight: '10px' }}>
-              <option value='weekly'>This week</option>
-              <option value='monthly'>This month</option>
+              <option value='weekly'>今週</option>
+              <option value='monthly'>今月</option>
             </select>
             <div className="prefs-list" style={{ flex: 5 }}>
               {advertisements.map((pref, index) => (
