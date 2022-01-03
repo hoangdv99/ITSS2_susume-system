@@ -140,7 +140,7 @@ export default function AdvertisementForm({ advertisementId }) {
 
           <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
             <Form.Label column sm={2}>
-              詳細
+              コンテンツ
             </Form.Label>
             <Col sm={10}>
               <Form.Control type="text" value={content} onChange={e => setContent(e.target.value)} required />
@@ -152,7 +152,7 @@ export default function AdvertisementForm({ advertisementId }) {
 
           <Form.Group as={Row} className="mb-3">
             <Form.Label column sm={2}>
-              SNS
+              宣伝方法
             </Form.Label>
             <Col sm={10}>
               <Form.Select aria-label="Default select example" value={selectedSns} onChange={handleSelectSns}>
@@ -164,7 +164,7 @@ export default function AdvertisementForm({ advertisementId }) {
           </Form.Group>
           <Form.Group as={Row} className="mb-3">
             <Form.Label column sm={2}>
-              商材
+              商品名
             </Form.Label>
             <Col sm={10}>
               <Form.Select aria-label="Default select example" value={selectedProduct} onChange={handleSelectProduct}>
