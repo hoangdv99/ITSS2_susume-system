@@ -65,9 +65,9 @@ export default function AdvertisementList() {
           <tr>
             <th className="text-center col-md-1">ID</th>
             <th className="text-center col-md-2">タイトル</th>
-            <th className="text-center col-md-2">商材</th>
-            <th className="text-center col-md-4">詳細</th>
-            <th className="text-center col-md-1">SNS</th>
+            <th className="text-center col-md-2">商品名</th>
+            <th className="text-center col-md-4">コンテンツ</th>
+            <th className="text-center col-md-1">宣伝方法</th>
             <th className="text-center col-md-2">活動</th>
           </tr>
         </thead>
