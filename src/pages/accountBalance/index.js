@@ -92,7 +92,7 @@ export default function Advertisements() {
           <div>{Math.round(currentBalance-total)}円</div>
         </div>
       </div>
-      <div className='action'>
+      <div className='action-yosan'>
           <Button onClick={handleOpenSet} variant="success">予算をセット</Button>
           <Button onClick={handleOpenAdd} variant="warning">予算を追加</Button>
       </div>
