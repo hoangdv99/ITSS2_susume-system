@@ -102,10 +102,10 @@ export default function AdCost() {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>ローンチ</th>
-                <th>プロダクト</th>
-                <th>記述</th>
-                <th>SNS</th>
+                <th>開始日</th>
+                <th>商品名</th>
+                <th>コンテンツ</th>
+                <th>宣伝方法</th>
                 <th>コスト</th>
               </tr>
             </thead>
