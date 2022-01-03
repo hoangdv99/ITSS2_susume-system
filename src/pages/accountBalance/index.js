@@ -153,7 +153,7 @@ export default function Advertisements() {
         <thead>
           <tr>
             <th className="text-center col-md-2">タイトル</th>
-            <th className="text-center col-md-4">詳細</th>
+            <th className="text-center col-md-4">コンテンツ</th>
             <th className="text-center col-md-2">広告コスト</th>
           </tr>
         </thead>
