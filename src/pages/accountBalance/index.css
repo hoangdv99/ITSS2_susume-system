@@ -12,14 +12,14 @@
   align-items: center;
 }
 
-.action {
+.action-yosan {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 20px 0px;
 }
 
-.action button {
+.action-yosan button {
   margin: 0px 20px;
 }
 
