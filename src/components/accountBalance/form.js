@@ -11,11 +11,10 @@ import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate } from 'react-router'
 import { toast, ToastContainer } from 'react-toastify'
 
-export default function AddMoneyToAccount() {
-  const { addMoneyToAccount, currentUser, getBalance } = useAuth();
+export default function AddMoneyToAccount({onHandleSetBalance, handleCloseAdd}) {
+  const { currentUser, getBalance } = useAuth();
   const [balance, setbalance] = useState('')
   const [validated, setValidated] = useState(false)
-  const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e) => {
@@ -28,9 +27,10 @@ export default function AddMoneyToAccount() {
       e.stopPropagation()
     } else {
       let accBalance = await getBalance(currentUser.uid)
-      await addMoneyToAccount(currentUser.uid, balance + accBalance)
+      //await addMoneyToAccount(currentUser.uid, balance + accBalance)
 
-      navigate('/')
+      onHandleSetBalance(currentUser.uid, balance + accBalance)
+      // navigate('/account-balance')
     }
     setValidated(true)
     setLoading(false)
@@ -67,8 +67,9 @@ export default function AddMoneyToAccount() {
               <Form.Control type="number" value={balance} onChange={e => setbalance(parseInt(e.target.value))} required />
             </Col>
           </Form.Group>
-          <div className="d-flex justify-content-center">
-            <Button type="submit" variant="success" size="lg">足す</Button>
+          <div className="d-flex justify-content-end">
+            <Button variant="warning" onClick={handleCloseAdd}>キャンセル</Button>
+            <Button type="submit" variant="success">足す</Button>
           </div>
         </Form>
       </Card.Body>

@@ -3,22 +3,27 @@ import {
   Button,
   Container,
   Table,
-  ProgressBar
+  ProgressBar,
+  Alert
 } from 'react-bootstrap'
 import AddMoneyToAccount from '../../components/accountBalance/form'
 import { useAuth } from '../../contexts/AuthContext'
 import { useAdvertisement } from '../../contexts/AdvertisementContext'
-import { Modal, Box, Typography } from '@material-ui/core'
+import { Modal, Box, Typography, Input } from '@material-ui/core'
 import './index.css'
 
 export default function Advertisements() {
-  const { getBalance, currentUser } = useAuth();
+  const { getBalance, currentUser, addMoneyToAccount } = useAuth();
   const {getTotalCost, advertisements } = useAdvertisement()
   const [currentBalance, setCurrentBalance] = useState(0);
+  const [amountSet, setAmountSet] = useState(0);
   const [total, setTotal] = useState(0);
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [openAdd, setOpenAdd] = React.useState(false);
+  const handleOpenAdd = () => setOpenAdd(true);
+  const handleCloseAdd = () => setOpenAdd(false);
+  const [openSet, setOpenSet] = React.useState(false);
+  const handleOpenSet = () => setOpenSet(true);
+  const handleCloseSet = () => setOpenSet(false);
 
   const style = {
   position: 'absolute',
@@ -27,7 +32,7 @@ export default function Advertisements() {
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'background.paper',
-  border: '2px solid #000',
+  borderRadius: '5px',
   boxShadow: 24,
   p: 4,
 };
@@ -46,7 +51,7 @@ export default function Advertisements() {
       getTotal();
 
     getCurrentBalance();
-  })
+  }, [getTotalCost, getBalance, currentUser])
 
   const totalViews = (views) => {
     if (typeof (views) !== 'object') return 0
@@ -56,6 +61,17 @@ export default function Advertisements() {
     }
 
     return sum;
+  }
+
+  const onHandleSetBalance = (uid, amount) => {
+    async function setBalanceAccount(){
+      let res = await addMoneyToAccount(uid, parseInt(amount));
+      console.log(res);
+    }
+
+    setBalanceAccount();
+    handleCloseSet();
+    handleCloseAdd();
   }
 
   return (
@@ -77,19 +93,58 @@ export default function Advertisements() {
         </div>
       </div>
       <div className='action'>
-          <Button onClick={handleOpen} variant="success">予算をセット</Button>
+          <Button onClick={handleOpenSet} variant="success">予算をセット</Button>
+          <Button onClick={handleOpenAdd} variant="warning">予算を追加</Button>
       </div>
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={openAdd}
+        onClose={handleCloseAdd}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            予算の最高限度を追加
+          </Typography>
+          <AddMoneyToAccount
+            onHandleSetBalance={onHandleSetBalance}
+            handleCloseAdd={handleCloseAdd}
+          />
+        </Box>
+      </Modal>
+      <Modal
+        open={openSet}
+        onClose={handleCloseSet}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             予算の最高限度をセット
+            {
+              parseInt(amountSet) < total &&
+              <Alert variant='warning' className='alert'>
+                予算の残高は、使用した金額以上である必要がある
+              </Alert>
+            }
+            <Input
+              value={amountSet}
+              placeholder='予算を入力'
+              type='number'
+              onChange={(event)=>setAmountSet(event.target.value)}
+              style={{width: '100%'}}
+              />
           </Typography>
-          <AddMoneyToAccount />
+          <div className='modal-action'>
+            <Button variant="warning" onClick={handleCloseSet}>キャンセル</Button>
+            <Button
+              variant="success"
+              onClick={()=>onHandleSetBalance(currentUser.uid, parseInt(amountSet))}
+              disabled={parseInt(amountSet) >=total? false: true}
+            >
+              セット
+            </Button>
+          </div>
         </Box>
       </Modal>
       </div>
