@@ -12,20 +12,27 @@ var dynamicColors = function() {
   return "rgb(" + r + ", " + g + ", " + b + ")";
 };
 
+const days = ['月', '火', '水', '木', '金', '土', '日']
+
 function Chart() {
   const { advertisements } = useAdvertisement()
   const [checked, setChecked] = useState([]);
   const [data, setData] = useState([])
   const [period, setPeriod] = useState('weekly')
-  const [times, setTimes] = useState(7)
+  const [times, setTimes] = useState()
+
+  useEffect(() => {
+    const date = new Date()
+    setTimes(date.getDay())
+  }, [])
   
   useEffect(() => {
     setChecked(new Array(advertisements.length).fill(true))
     setData([])
-    for (let time = 1; time <= times; time++ )
+    for (let time = times; time >= 1; time-- )
     {
       let e = {}
-      e["time"] = time
+      e["time"] = period === 'weekly' ? days[times - time] : times - time + 1
       advertisements.forEach(ad => {
         e[ad.title] = ad.view[time - 1]
       })
@@ -56,9 +63,10 @@ function Chart() {
   };
 
   const changePeriod = (e) => {
+    const date = new Date()
     setPeriod(e.target.value)
-    if (e.target.value === 'weekly') setTimes(7)
-    else setTimes(30)
+    if (e.target.value === 'weekly') setTimes(date.getDay())
+    else setTimes(date.getDate())
   }
   
   return (
