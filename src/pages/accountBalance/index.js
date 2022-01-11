@@ -104,7 +104,7 @@ export default function Advertisements() {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            予算の最高限度を追加
+            予算額を追加
           </Typography>
           <AddMoneyToAccount
             onHandleSetBalance={onHandleSetBalance}
@@ -120,7 +120,7 @@ export default function Advertisements() {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            予算の最高限度をセット
+            予算額をセット
             {
               parseInt(amountSet) < total &&
               <Alert variant='warning' className='alert'>

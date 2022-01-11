@@ -85,12 +85,12 @@ export default function ProductList() {
         <thead>
           <tr>
             <th className="text-center">ID</th>
-            <th className="text-center">名前</th>
+            <th className="text-center">商品名</th>
             <th className="text-center">写真</th>
-            <th className="text-center">価格</th>
+            <th className="text-center">コスト</th>
             <th className="text-center">サイズ</th>
             <th className="text-center">材料</th>
-            <th className="text-center">残額</th>
+            <th className="text-center">在庫数</th>
             <th className="text-center">活動</th>
           </tr>
         </thead>
