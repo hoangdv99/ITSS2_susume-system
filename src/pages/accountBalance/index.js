@@ -121,12 +121,9 @@ export default function Advertisements() {
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             予算額をセット
-            {
-              parseInt(amountSet) < total &&
-              <Alert variant='warning' className='alert'>
-                予算の残高は、使用した金額以上である必要がある
-              </Alert>
-            }
+            <Alert variant='warning' className='alert'>
+              予算の残高は、使用した金額以上である必要がある
+            </Alert>
             <Input
               value={amountSet}
               placeholder='予算を入力'
@@ -153,7 +150,7 @@ export default function Advertisements() {
         <thead>
           <tr>
             <th className="text-center col-md-2">タイトル</th>
-            <th className="text-center col-md-4">コンテンツ</th>
+            <th className="text-center col-md-4">支出表</th>
             <th className="text-center col-md-2">広告コスト</th>
           </tr>
         </thead>
@@ -165,6 +162,7 @@ export default function Advertisements() {
                   <ProgressBar
                     variant="success"
                     now={(Math.round((advertisement.sns.cost * totalViews(advertisement.view)+ Number.EPSILON)*100)/100)*100/currentBalance}
+                    label={`${Math.round((Math.round((advertisement.sns.cost * totalViews(advertisement.view)+ Number.EPSILON)*100)/100)*100/currentBalance)}%`}
                   />  
                 </td>              
                 <td className="text-center">{Math.round((advertisement.sns.cost * totalViews(advertisement.view)+ Number.EPSILON)*100)/100}円</td>

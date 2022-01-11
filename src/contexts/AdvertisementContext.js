@@ -15,7 +15,7 @@ function getRandomArbitrary(min, max) {
 
 export function AdvertisementProvider({ children }) {
   const [advertisements, setAdvertisements] = useState([])
-  const { currentUser } = useAuth()
+  const { currentUser, getBalance } = useAuth()
   const [flag, setFlag] = useState(false)
 
   useEffect(() => {
@@ -40,7 +40,6 @@ export function AdvertisementProvider({ children }) {
         totalView = totalView + v
         return v
       })
-
       total = total + totalView*doc.data().sns.cost
     })
 
@@ -53,15 +52,38 @@ export function AdvertisementProvider({ children }) {
     for(let i = 0; i < 30; i++) {
       view[i] = getRandomArbitrary(0, 100)
     }
-    const newAdvertisement = {
+
+    let cb = await getBalance(currentUser.uid);
+    let total = await getTotalCost();
+    let totalViews = 0;
+
+    view.map(v => {
+      totalViews = totalViews + v;
+      return v;
+    })
+    let newAdvertisement = {
       ...advertisement,
       userId: currentUser.uid, 
       id,
       view
     }
+
+    if(totalViews*advertisement.sns.cost + total - cb >= 0){
+      let changeMoney = cb - total;
+      let maxPing = Math.floor(changeMoney/30);
+      for(let i = 0; i < 30; i++) {
+      view[i] = getRandomArbitrary(0, maxPing);
+
+      newAdvertisement = {
+        ...newAdvertisement,
+        view
+      }
+    }
+    }
+
     await firestore.collection('advertisements').doc(id).set(newAdvertisement)
-    setAdvertisements([...advertisements, newAdvertisement])
-    setFlag(flag => !flag)
+      setAdvertisements([...advertisements, newAdvertisement])
+      setFlag(flag => !flag)
   }
 
   const editAdvertisement = async (id, advertisement) => {

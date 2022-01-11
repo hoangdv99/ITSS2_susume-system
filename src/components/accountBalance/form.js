@@ -36,12 +36,6 @@ export default function AddMoneyToAccount({onHandleSetBalance, handleCloseAdd}) 
     setLoading(false)
   }
 
-  const warning_alert = () => {
-    if (balance!=='') {
-      return <Alert variant="warning" >勘定残高を足す前に、金閣を入力してください。</Alert>;
-    }
-    return null;
-  }
   return (
     <Card bg="light">
       {/* <ToastContainer
@@ -57,7 +51,7 @@ export default function AddMoneyToAccount({onHandleSetBalance, handleCloseAdd}) 
       /><ToastContainer /> */}
 
       <Card.Body>
-        {warning_alert()}
+        <Alert variant="warning" >勘定残高を足す前に、金閣を入力してください。</Alert>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
             <Form.Label>
