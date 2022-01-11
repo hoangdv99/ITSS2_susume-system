@@ -61,7 +61,7 @@ export default function AddMoneyToAccount({onHandleSetBalance, handleCloseAdd}) 
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
             <Form.Label>
-              予算の最高限度を足す
+              予算額を足す
             </Form.Label>
             <Col>
               <Form.Control type="number" value={balance} onChange={e => setbalance(parseInt(e.target.value))} required />

@@ -116,24 +116,24 @@ export default function ProductForm({ productId }) {
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
             <Form.Label column sm={2}>
-              名前
+              商品名
             </Form.Label>
             <Col sm={10}>
               <Form.Control type="text" value={name} onChange={e => setName(e.target.value)} required />
               <Form.Control.Feedback type="invalid">
-                名前は必須です！
+                商品名は必須です！
               </Form.Control.Feedback>
             </Col>
           </Form.Group>
 
           <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
             <Form.Label column sm={2}>
-              価格
+              商品コスト
             </Form.Label>
             <Col sm={10}>
               <Form.Control type="number" value={price} onChange={e => setPrice(e.target.value)} required />
               <Form.Control.Feedback type="invalid">
-                価格は必須です！
+                商品コストは必須です！
               </Form.Control.Feedback>
             </Col>
           </Form.Group>
@@ -167,7 +167,7 @@ export default function ProductForm({ productId }) {
 
           <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
             <Form.Label column sm={2}>
-              残額
+              在庫数
             </Form.Label>
             <Col sm={10}>
               <Form.Control type="number" value={quantity} onChange={e=>setQuantity(e.target.value)} required />
