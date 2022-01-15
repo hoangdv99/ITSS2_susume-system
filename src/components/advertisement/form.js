@@ -30,19 +30,19 @@ export default function AdvertisementForm({ advertisementId }) {
   const { getBalance, currentUser } = useAuth();
 
   useEffect(() => {
-    async function getTotal(){
-        let res = await getTotalCost();
-        console.log(res);
-        setTotal(res)
-      }
-      getTotal();
+    async function getTotal() {
+      let res = await getTotalCost();
+      console.log(res);
+      setTotal(res)
+    }
+    getTotal();
 
-      async function getCurrentBalance(){
-        let cb = await getBalance(currentUser.uid)
-        setCurrentBalance(cb)
-      }
+    async function getCurrentBalance() {
+      let cb = await getBalance(currentUser.uid)
+      setCurrentBalance(cb)
+    }
 
-      getCurrentBalance();
+    getCurrentBalance();
     if (advertisementId) {
       const ad = advertisements.find(ad => ad.id === advertisementId)
       setContent(ad.content)
@@ -67,16 +67,31 @@ export default function AdvertisementForm({ advertisementId }) {
         title
       }
       if (advertisementId === undefined) {
-        await createNewAdvertisement(advertisement)
-        toast.success('正常に作成されました', {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        const newAds = await createNewAdvertisement(advertisement)
+        if (newAds.status === 1) {
+          toast.success(newAds.message, {
+            position: "top-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setTimeout(() => {
+            navigate('/advertisements')
+          }, 1200);
+        } else {
+          toast.error(newAds.message, {
+            position: "top-right",
+            autoClose: false,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+        }
       } else {
         await editAdvertisement(advertisementId, advertisement)
         toast.success('正常に編集されました', {
@@ -88,10 +103,10 @@ export default function AdvertisementForm({ advertisementId }) {
           draggable: true,
           progress: undefined,
         });
+        setTimeout(() => {
+          navigate('/advertisements')
+        }, 1200);
       }
-      setTimeout(() => {
-        navigate('/advertisements')
-      }, 1200);
     }
     setValidated(true)
     setLoading(false)
@@ -114,7 +129,7 @@ export default function AdvertisementForm({ advertisementId }) {
     <Card bg="light">
       <ToastContainer
         position="top-right"
-        autoClose={1000}
+        autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -122,18 +137,18 @@ export default function AdvertisementForm({ advertisementId }) {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-      /><ToastContainer />
+      />
       <Card.Body>
         {warning_alert()}
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
-        <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+          <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
             <Form.Label column sm={2}>
               タイトル
             </Form.Label>
             <Col sm={10}>
               <Form.Control type="text" value={title} onChange={e => setTitle(e.target.value)} required />
               <Form.Control.Feedback type="invalid">
-              タイトルは必須です！
+                タイトルは必須です！
               </Form.Control.Feedback>
             </Col>
           </Form.Group>
@@ -179,8 +194,8 @@ export default function AdvertisementForm({ advertisementId }) {
             <Button type="submit" variant="success" size="lg" disabled={loading || !selectedProduct || total > currentBalance}>{advertisementId ? '更新' : '作成'}</Button>
           </div>
           {console.log(total, currentBalance)}
-          {total > currentBalance && 
-            <div style={{borderRadius: "5px", backgroundColor: "rgba(255,229,100,0.3)", borderLeft: "solid 4px #ffe564", padding: "16px 8px"}}>
+          {total > currentBalance &&
+            <div style={{ borderRadius: "5px", backgroundColor: "rgba(255,229,100,0.3)", borderLeft: "solid 4px #ffe564", padding: "16px 8px" }}>
               勘定残高が足りません!広告を作成できません。
             </div>
           }

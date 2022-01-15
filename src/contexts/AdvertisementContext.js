@@ -26,8 +26,8 @@ export function AdvertisementProvider({ children }) {
     setAdvertisements([])
     const data = await firestore.collection('advertisements').where('userId', '==', currentUser.uid).get();
     data.forEach(doc => {
-        const advertisement = doc.data()
-        setAdvertisements(advertisements => [...advertisements, advertisement])
+      const advertisement = doc.data()
+      setAdvertisements(advertisements => [...advertisements, advertisement])
     })
   }
 
@@ -40,7 +40,7 @@ export function AdvertisementProvider({ children }) {
         totalView = totalView + v
         return v
       })
-      total = total + totalView*doc.data().sns.cost
+      total = total + totalView * doc.data().sns.cost
     })
 
     return total;
@@ -49,7 +49,7 @@ export function AdvertisementProvider({ children }) {
   const createNewAdvertisement = async (advertisement) => {
     const id = format('yyyyMMddHHmmss', new Date())
     const view = []
-    for(let i = 0; i < 30; i++) {
+    for (let i = 0; i < 30; i++) {
       view[i] = getRandomArbitrary(0, 100)
     }
 
@@ -63,27 +63,25 @@ export function AdvertisementProvider({ children }) {
     })
     let newAdvertisement = {
       ...advertisement,
-      userId: currentUser.uid, 
+      userId: currentUser.uid,
       id,
       view
     }
 
-    if(totalViews*advertisement.sns.cost + total - cb >= 0){
-      let changeMoney = cb - total;
-      let maxPing = Math.floor(changeMoney/30);
-      for(let i = 0; i < 30; i++) {
-      view[i] = getRandomArbitrary(0, maxPing);
-
-      newAdvertisement = {
-        ...newAdvertisement,
-        view
+    if (totalViews * advertisement.sns.cost + total - cb >= 0) {
+      return {
+        status: 0,
+        message: '残りの金額は、新しい広告を作成するのに十分ではありません。予算を調整してください。'
       }
-    }
-    }
-
-    await firestore.collection('advertisements').doc(id).set(newAdvertisement)
+    } else {
+      await firestore.collection('advertisements').doc(id).set(newAdvertisement)
       setAdvertisements([...advertisements, newAdvertisement])
       setFlag(flag => !flag)
+      return {
+        status: 1,
+        message: '新しい広告を作成しました。'
+      }
+    }
   }
 
   const editAdvertisement = async (id, advertisement) => {
@@ -101,7 +99,7 @@ export function AdvertisementProvider({ children }) {
   const value = { advertisements, getAdvertisements, createNewAdvertisement, deleteAdvertisement, editAdvertisement, getTotalCost }
   return (
     <AdvertisementContext.Provider value={value}>
-      { children }
+      {children}
     </AdvertisementContext.Provider>
   )
 }
