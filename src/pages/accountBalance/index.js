@@ -165,7 +165,7 @@ export default function Advertisements() {
                     label={`${Math.round((Math.round((advertisement.sns.cost * totalViews(advertisement.view)+ Number.EPSILON)*100)/100)*100/currentBalance)}%`}
                   />  
                 </td>              
-                <td className="text-center">{Math.round((advertisement.sns.cost * totalViews(advertisement.view)+ Number.EPSILON)*100)/100}円</td>
+                <td className="text-center">{(advertisement.sns.cost * totalViews(advertisement.view)).toFixed(1)}円</td>
               </tr>
             ))
           }
