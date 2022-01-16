@@ -13,6 +13,7 @@ export default function ProductList() {
   const [numberPage, setNumberPage] = useState(1)
   const [paginatedProducts, setPaginatedProducts] = useState([])
   const limitPerPage = 5;
+  let ordinal = 0;
   const handleChange = (event, value) => {
 		setPage(value)
 	}
@@ -84,7 +85,7 @@ export default function ProductList() {
         />
         <thead>
           <tr>
-            <th className="text-center">ID</th>
+            <th className="text-center">番号順</th>
             <th className="text-center">商品名</th>
             <th className="text-center">写真</th>
             <th className="text-center">コスト</th>
@@ -97,7 +98,7 @@ export default function ProductList() {
         <tbody>
           {paginatedProducts.map(product => (
             <tr key={product.id}>
-              <td className="text-center">{product.id}</td>
+              <td className="text-center">{ordinal = ordinal + 1}</td>
               <td className="text-center">{product.name}</td>
               <td className="text-center">
                 <img src={product.image} style={{ width: "80px", height: "80px" }} alt="product" />

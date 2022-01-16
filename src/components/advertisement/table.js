@@ -11,6 +11,7 @@ export default function AdvertisementList() {
   const [numberPage, setNumberPage] = useState(1)
   const [paginatedAds, setPaginatedAds] = useState([])
   const limitPerPage = 5;
+  let ordinal = 0;
   const handleChange = (event, value) => {
 		setPage(value)
 	}
@@ -63,7 +64,7 @@ export default function AdvertisementList() {
         /><ToastContainer />
         <thead>
           <tr>
-            <th className="text-center col-md-1">ID</th>
+            <th className="text-center col-md-1">番号順</th>
             <th className="text-center col-md-2">タイトル</th>
             <th className="text-center col-md-2">商品名</th>
             <th className="text-center col-md-4">コンテンツ</th>
@@ -74,7 +75,7 @@ export default function AdvertisementList() {
         <tbody>
           {paginatedAds.map(advertisement => (
               <tr key={advertisement.id}>
-                <td className="text-center">{ advertisement.id }</td>
+                <td className="text-center">{ ordinal = ordinal + 1 }</td>
                 <td className="text-center">{ advertisement.title }</td>
                 <td className="text-center">{ advertisement.product.name }</td>
                 <td className="text-center">{ advertisement.content }</td>              
